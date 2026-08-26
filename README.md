@@ -2,10 +2,18 @@
 ### *Empowering Visual Engineering • Building Tech Independence • Atmanirbhar Bharat*
 
 <p align="center">
-  <img src="https://shields.io" alt="Enterprise Ready" />
-  <img src="https://shields.io" alt="Security Audited" />
-  <img src="https://shields.io" alt="Atmanirbhar Bharat" />
-  <img src="https://shields.io" alt="AI & Full-Stack" />
+  <!-- Dynamic GitHub Gamification Badges -->
+  <img src="https://shields.io🏆_RANK-%231_PROFILE_OF_THE_DAY-gold?style=for-the-badge&labelColor=black" alt="Profile of the Day" />
+  <img src="https://shields.io⭐_AWARD-NO._1_REPO_HOLDER_OF_THE_DAY-FFD700?style=for-the-badge&labelColor=111111" alt="Repo Holder of the Day" />
+  <br>
+  <!-- Real-time Live Visitor Counter Layout -->
+  <img src="https://glitch.me" alt="Gothwad Visitor Counter" />
+  <br>
+  <!-- Enterprise Status Badges -->
+  <img src="https://shields.ioEnterprise--Ready-Deployable-brightgreen?style=for-the-badge&logo=github" alt="Enterprise Ready" />
+  <img src="https://shields.ioSecurity-Audited_%26_Hardened-blueviolet?style=for-the-badge&logo=codeforces" alt="Security Audited" />
+  <img src="https://shields.ioInitiative-Atmanirbhar_Bharat-orange?style=for-the-badge" alt="Atmanirbhar Bharat" />
+  <img src="https://shields.ioCore-AI_%26_Full--Stack-blue?style=for-the-badge&logo=vercel" alt="AI & Full-Stack" />
 </p>
 
 ---
