@@ -1,20 +1,21 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
-</div>
+# 🏢 Gothwad Technologies Pvt. Ltd.
+### *Empowering Visual Engineering • Building Tech Independence • Atmanirbhar Bharat*
 
-# Run and deploy your AI Studio app
+<p align="center">
+  <img src="https://shields.io" alt="Enterprise Ready" />
+  <img src="https://shields.io" alt="Security Audited" />
+  <img src="https://shields.io" alt="Atmanirbhar Bharat" />
+  <img src="https://shields.io" alt="AI & Full-Stack" />
+</p>
 
-This contains everything you need to run your app locally.
+---
 
-View your app in AI Studio: https://ai.studio/apps/c9618625-f620-4584-8ebc-92d766496eb3
+## 🌐 Overview
+**Gothwad Technologies** is a premier software engineering collective and IT consultancy dedicated to redefining enterprise digital infrastructure. Built on the core pillars of the **"Atmanirbhar Bharat"** mission, we architect high-performance web ecosystems, resilient mobile applications, next-generation AI integrations, and foolproof cybersecurity architectures. 
 
-## Run Locally
+We do not just write code; we engineer competitive advantages for global enterprises and ambitious startups alike.
 
-**Prerequisites:**  Node.js
+---
 
+## 🛠️ Core Capabilities & Technology Stack
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
