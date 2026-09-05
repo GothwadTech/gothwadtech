@@ -1,4 +1,4 @@
-# Gothwad Tech Pvt. Ltd.
+# Gothwad Tech Private Limited
 ### Sovereign Software Engineering | Enterprise Digital Infrastructure | Technological Autonomy
 
 
