@@ -1,16 +1,6 @@
 # Gothwad Tech Pvt. Ltd.
 ### Sovereign Software Engineering | Enterprise Digital Infrastructure | Technological Autonomy
 
-<p align="center">
-  <img src="https://shields.io" alt="Enterprise Ready" />
-  <img src="https://shields.io" alt="Security Standard" />
-  <img src="https://shields.io" alt="Strategic Initiative" />
-  <img src="https://shields.io" alt="Operations" />
-  <img src="https://shields.io" alt="DevSecOps" />
-  <img src="https://shields.io" alt="Architecture" />
-  <img src="https://shields.io" alt="SLA" />
-  <img src="https://shields.io" alt="QA Status" />
-</p>
 
 ---
 
