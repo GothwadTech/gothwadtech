@@ -1,19 +1,6 @@
 import React from 'react';
-import {
-  Sparkles,
-  ArrowRight,
-  ShieldCheck,
-  Zap,
-  Globe,
-  Compass,
-  MessageSquare,
-  Send,
-  Layers,
-  CheckCircle2,
-  Download,
-  Smartphone,
-} from 'lucide-react';
-import { COMPANY_INFO, SOVEREIGN_PRODUCTS } from '../data/companyData';
+import { Sparkles, ArrowRight, ShieldCheck, Zap, Globe, Compass, MessageSquare, Send, CheckCircle2, Smartphone } from 'lucide-react';
+import { COMPANY_INFO } from '../data/companyData';
 import { useLanguage } from '../context/LanguageContext';
 
 interface HeroSectionProps {

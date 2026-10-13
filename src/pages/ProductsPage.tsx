@@ -1,37 +1,6 @@
 import React, { useState } from 'react';
-import {
-  Flame,
-  Zap,
-  ShieldCheck,
-  Cpu,
-  Layers,
-  Sparkles,
-  Download,
-  Gauge,
-  Check,
-  Compass,
-  MessageSquare,
-  Send,
-  Smartphone,
-  Globe,
-  Radio,
-  Share2,
-  Users,
-  Cloud,
-  Bot,
-  Laptop,
-  CheckCircle2,
-  Phone,
-  ExternalLink,
-  ArrowRight,
-} from 'lucide-react';
-import {
-  BROWSER_BENCHMARKS,
-  SOVEREIGN_PRODUCTS,
-  SovereignProduct,
-  COMPANY_INFO,
-} from '../data/companyData';
-import { safeOpenExternalLink } from '../utils/browserUtils';
+import { Zap, Sparkles, Download, Gauge, Check, Compass, MessageSquare, Send, Smartphone, CheckCircle2 } from 'lucide-react';
+import { BROWSER_BENCHMARKS, SOVEREIGN_PRODUCTS, SovereignProduct } from '../data/companyData';
 
 interface ProductsPageProps {
   onOpenBrowserSimulator: () => void;

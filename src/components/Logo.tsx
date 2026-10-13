@@ -12,7 +12,7 @@ export const Logo: React.FC<LogoProps> = ({
   className = '',
   showText = true,
   size = 'md',
-  imageSrc = '/icon-512.png',
+  imageSrc = '/assets/icons/icon-512.png',
 }) => {
   const [imageError, setImageError] = useState(false);
 
@@ -41,10 +41,10 @@ export const Logo: React.FC<LogoProps> = ({
             referrerPolicy="no-referrer"
             onError={() => {
               // Try fallback to png before showing vector
-              if (imageSrc !== '/icon-512.png') {
-                // If svg had an issue, fallback to generated png
+              if (imageSrc !== '/assets/icons/icon-512.png') {
+                // If the image had an issue, fallback to the canonical png
                 const img = new Image();
-                img.src = '/icon-512.png';
+                img.src = '/assets/icons/icon-512.png';
                 img.onload = () => setImageError(false);
                 img.onerror = () => setImageError(true);
               } else {

@@ -1,20 +1,5 @@
 import React from 'react';
-import {
-  ShieldCheck,
-  Flame,
-  ArrowUp,
-  Sparkles,
-  Heart,
-  Phone,
-  Mail,
-  MapPin,
-  MessageSquare,
-  GraduationCap,
-  Utensils,
-  Store,
-  Building2,
-  Cpu,
-} from 'lucide-react';
+import { ShieldCheck, ArrowUp, Sparkles, Phone, Cpu } from 'lucide-react';
 import { COMPANY_INFO } from '../data/companyData';
 import { Logo } from './Logo';
 

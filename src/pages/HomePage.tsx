@@ -1,25 +1,5 @@
 import React from 'react';
-import {
-  GraduationCap,
-  Utensils,
-  Store,
-  Building2,
-  Smartphone,
-  ShieldCheck,
-  Compass,
-  MessageSquare,
-  Send,
-  Zap,
-  CheckCircle2,
-  ArrowRight,
-  Sparkles,
-  Phone,
-  Clock,
-  Award,
-  Users,
-  ChevronRight,
-  TrendingUp,
-} from 'lucide-react';
+import { GraduationCap, Utensils, Store, Building2, Smartphone, ShieldCheck, Compass, MessageSquare, Send, Zap, CheckCircle2, ArrowRight, Sparkles, Phone, ChevronRight } from 'lucide-react';
 import { COMPANY_INFO, SOVEREIGN_PRODUCTS, SERVICES } from '../data/companyData';
 
 interface HomePageProps {

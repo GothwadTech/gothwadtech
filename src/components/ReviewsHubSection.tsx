@@ -1,15 +1,5 @@
 import React, { useState } from 'react';
-import {
-  Star,
-  CheckCircle2,
-  Sparkles,
-  Send,
-  MessageSquare,
-  Building,
-  User,
-  Quote,
-  ShieldCheck,
-} from 'lucide-react';
+import { Star, CheckCircle2, Send, MessageSquare, ShieldCheck } from 'lucide-react';
 import { safeStorage } from '../utils/safeStorage';
 
 interface Review {

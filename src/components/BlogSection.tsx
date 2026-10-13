@@ -1,18 +1,5 @@
 import React, { useState } from 'react';
-import {
-  BookOpen,
-  Calendar,
-  Clock,
-  ArrowRight,
-  Sparkles,
-  Tag,
-  Share2,
-  CheckCircle2,
-  Cpu,
-  Shield,
-  Layers,
-  FileText,
-} from 'lucide-react';
+import { BookOpen, Clock, ArrowRight, Share2 } from 'lucide-react';
 import { safeCopyToClipboard } from '../utils/browserUtils';
 
 interface BlogPost {

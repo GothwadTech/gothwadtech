@@ -1,17 +1,5 @@
 import React, { useState } from 'react';
-import {
-  Layers,
-  Sparkles,
-  GraduationCap,
-  Utensils,
-  Store,
-  Building2,
-  Cpu,
-  ArrowRight,
-  CheckCircle2,
-  ExternalLink,
-  Tag,
-} from 'lucide-react';
+import { Layers, ArrowRight } from 'lucide-react';
 import { PORTFOLIO_PROJECTS } from '../data/companyData';
 import { ProjectItem } from '../types';
 

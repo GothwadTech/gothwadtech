@@ -1,26 +1,6 @@
 import React, { useState } from 'react';
-import {
-  GraduationCap,
-  Utensils,
-  Store,
-  Building2,
-  Smartphone,
-  Cpu,
-  CheckCircle2,
-  ArrowRight,
-  ShieldCheck,
-  Zap,
-  Clock,
-  Phone,
-  MessageSquare,
-  Sparkles,
-  Layers,
-  FileText,
-  DollarSign,
-  HelpCircle,
-} from 'lucide-react';
+import { GraduationCap, Utensils, Store, Building2, Smartphone, Cpu, CheckCircle2, ArrowRight, MessageSquare, FileText } from 'lucide-react';
 import { SERVICES, COMPANY_INFO } from '../data/companyData';
-import { ServiceItem } from '../types';
 
 interface SolutionsPageProps {
   onOpenOrderModal: (serviceTitle?: string) => void;

@@ -1,17 +1,5 @@
 import React, { useState } from 'react';
-import {
-  Code,
-  Terminal,
-  Copy,
-  Check,
-  ExternalLink,
-  BookOpen,
-  FileCode,
-  Sparkles,
-  Layers,
-  Shield,
-  Cpu,
-} from 'lucide-react';
+import { Code, Terminal, Copy, Check, Layers, Shield, Cpu } from 'lucide-react';
 import { safeCopyToClipboard } from '../utils/browserUtils';
 
 const CODE_EXAMPLES = {
