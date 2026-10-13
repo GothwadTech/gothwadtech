@@ -3,6 +3,7 @@ import {
   X,
   Zap,
   Flame,
+  Info,
 } from 'lucide-react';
 
 interface BrowserSimulatorModalProps {
@@ -62,7 +63,7 @@ export const BrowserSimulatorModal: React.FC<BrowserSimulatorModalProps> = ({
 
             <div className="flex items-center gap-1.5 px-2.5 py-1 bg-white dark:bg-zinc-900 rounded-lg border border-zinc-200 dark:border-zinc-800 text-xs text-zinc-700 dark:text-zinc-300 font-mono">
               <Flame className="w-3.5 h-3.5 text-amber-500 fill-current" />
-              <span>gothwad://speed-benchmark-core</span>
+              <span>gothwad://demo/illustrative-preview</span>
             </div>
           </div>
 
@@ -118,8 +119,20 @@ export const BrowserSimulatorModal: React.FC<BrowserSimulatorModalProps> = ({
           </div>
 
           <div className="text-[11px] text-zinc-400">
-            Hardware Emulation
+            Simulated preview
           </div>
+        </div>
+
+        {/* Illustrative-data disclaimer — shown on every tab */}
+        <div className="px-3 py-2 bg-amber-50 dark:bg-amber-500/10 border-b border-amber-200 dark:border-amber-500/20 flex items-start gap-2">
+          <Info className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
+          <p className="text-[11px] leading-relaxed text-amber-800 dark:text-amber-200">
+            <strong className="font-bold">Illustrative demo.</strong> Every figure
+            below is simulated to demonstrate how the interface behaves — it is not
+            a measured benchmark and not a comparison against real Chrome or
+            Firefox builds. Actual performance depends on your hardware, OS,
+            extensions and workload.
+          </p>
         </div>
 
         {/* Tab 1: RAM & Tab Simulator */}
@@ -161,7 +174,8 @@ export const BrowserSimulatorModal: React.FC<BrowserSimulatorModalProps> = ({
                     Gothwad Browser (Rust Engine)
                   </span>
                   <span className="font-mono font-bold text-emerald-600 dark:text-emerald-400 text-xs sm:text-sm">
-                    {gothwadRam} MB RAM
+                    ~{gothwadRam} MB{' '}
+                    <span className="font-sans font-normal text-[10px] opacity-70">(modelled)</span>
                   </span>
                 </div>
                 <div className="w-full h-2.5 bg-zinc-200 dark:bg-zinc-800 rounded-full overflow-hidden">
@@ -182,7 +196,8 @@ export const BrowserSimulatorModal: React.FC<BrowserSimulatorModalProps> = ({
                     Google Chrome
                   </span>
                   <span className="font-mono font-bold text-rose-600 dark:text-rose-400 text-xs sm:text-sm">
-                    {chromeRam} MB RAM
+                    ~{chromeRam} MB{' '}
+                    <span className="font-sans font-normal text-[10px] opacity-70">(modelled)</span>
                   </span>
                 </div>
                 <div className="w-full h-2.5 bg-zinc-200 dark:bg-zinc-800 rounded-full overflow-hidden">
@@ -192,7 +207,8 @@ export const BrowserSimulatorModal: React.FC<BrowserSimulatorModalProps> = ({
                   />
                 </div>
                 <div className="text-[10px] text-zinc-400">
-                  Consumes {Math.round((chromeRam / gothwadRam) * 10) / 10}x more memory
+                  Modelled at ~{Math.round((chromeRam / gothwadRam) * 10) / 10}x the figure
+                  above — illustrative, not a measured comparison
                 </div>
               </div>
 
@@ -203,7 +219,8 @@ export const BrowserSimulatorModal: React.FC<BrowserSimulatorModalProps> = ({
                     Mozilla Firefox
                   </span>
                   <span className="font-mono font-bold text-orange-600 dark:text-orange-400 text-xs sm:text-sm">
-                    {firefoxRam} MB RAM
+                    ~{firefoxRam} MB{' '}
+                    <span className="font-sans font-normal text-[10px] opacity-70">(modelled)</span>
                   </span>
                 </div>
                 <div className="w-full h-2.5 bg-zinc-200 dark:bg-zinc-800 rounded-full overflow-hidden">
@@ -244,22 +261,26 @@ export const BrowserSimulatorModal: React.FC<BrowserSimulatorModalProps> = ({
 
             <div className="grid grid-cols-2 gap-3">
               <div className="p-3.5 bg-zinc-50 dark:bg-zinc-950 rounded-xl border border-zinc-200 dark:border-zinc-800 text-center">
-                <div className="text-[11px] text-zinc-400 mb-0.5">Ads Blocked</div>
+                <div className="text-[11px] text-zinc-400 mb-0.5">
+                  Ads Blocked <span className="opacity-70">(sample page)</span>
+                </div>
                 <div className="text-2xl font-bold text-amber-600 dark:text-amber-400 font-mono">
                   {adBlockEnabled ? simulatedAdsBlocked : 0}
                 </div>
                 <div className="text-[10px] text-zinc-400 mt-0.5">
-                  {adBlockEnabled ? '100% telemetry intercepted' : 'Vulnerable'}
+                  {adBlockEnabled ? 'Demo count for one sample page' : 'Shield disabled'}
                 </div>
               </div>
 
               <div className="p-3.5 bg-zinc-50 dark:bg-zinc-950 rounded-xl border border-zinc-200 dark:border-zinc-800 text-center">
-                <div className="text-[11px] text-zinc-400 mb-0.5">Data Saved</div>
+                <div className="text-[11px] text-zinc-400 mb-0.5">
+                  Data Saved <span className="opacity-70">(sample page)</span>
+                </div>
                 <div className="text-2xl font-bold text-emerald-600 dark:text-emerald-400 font-mono">
                   {adBlockEnabled ? `${simulatedDataSavedMb} MB` : '0 MB'}
                 </div>
                 <div className="text-[10px] text-zinc-400 mt-0.5">
-                  {adBlockEnabled ? 'Faster on 4G/5G' : 'Bandwidth wasted'}
+                  {adBlockEnabled ? 'Demo estimate, not measured' : 'Shield disabled'}
                 </div>
               </div>
             </div>
@@ -303,8 +324,12 @@ export const BrowserSimulatorModal: React.FC<BrowserSimulatorModalProps> = ({
                   />
                 </div>
                 <div className="flex justify-between text-[10px] text-zinc-400">
-                  <span>Speed: 38.4 MB/s</span>
-                  <span>{downloadProgress === 100 ? 'Complete!' : '16 Threads active'}</span>
+                  <span>Simulated speed: 38.4 MB/s</span>
+                  <span>
+                    {downloadProgress === 100
+                      ? 'Demo complete'
+                      : '16 threads (simulated)'}
+                  </span>
                 </div>
               </div>
             </div>
