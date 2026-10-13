@@ -3,27 +3,137 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { lazy, Suspense, useEffect, useState } from 'react';
 import { ThemeProvider } from './context/ThemeContext';
 import { LanguageProvider } from './context/LanguageContext';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
-
-// Distinct Pages
-import { HomePage } from './pages/HomePage';
-import { SolutionsPage } from './pages/SolutionsPage';
-import { ProductsPage } from './pages/ProductsPage';
-import { PortfolioPage } from './pages/PortfolioPage';
-import { AboutPage } from './pages/AboutPage';
-import { ContactPage } from './pages/ContactPage';
-
-// Modals
-import { ProjectDetailModal } from './components/ProjectDetailModal';
-import { BrowserSimulatorModal } from './components/BrowserSimulatorModal';
-import { OrderModal } from './components/OrderModal';
 import { ProjectItem } from './types';
 import { MessageSquare, Phone } from 'lucide-react';
 import { COMPANY_INFO } from './data/companyData';
+
+// Distinct Pages — code-split so the initial bundle only carries Home.
+const HomePage = lazy(() =>
+  import('./pages/HomePage').then((m) => ({ default: m.HomePage })),
+);
+const SolutionsPage = lazy(() =>
+  import('./pages/SolutionsPage').then((m) => ({ default: m.SolutionsPage })),
+);
+const ProductsPage = lazy(() =>
+  import('./pages/ProductsPage').then((m) => ({ default: m.ProductsPage })),
+);
+const PortfolioPage = lazy(() =>
+  import('./pages/PortfolioPage').then((m) => ({ default: m.PortfolioPage })),
+);
+const AboutPage = lazy(() =>
+  import('./pages/AboutPage').then((m) => ({ default: m.AboutPage })),
+);
+const ContactPage = lazy(() =>
+  import('./pages/ContactPage').then((m) => ({ default: m.ContactPage })),
+);
+
+// Modals — only fetched when actually opened.
+const ProjectDetailModal = lazy(() =>
+  import('./components/ProjectDetailModal').then((m) => ({
+    default: m.ProjectDetailModal,
+  })),
+);
+const BrowserSimulatorModal = lazy(() =>
+  import('./components/BrowserSimulatorModal').then((m) => ({
+    default: m.BrowserSimulatorModal,
+  })),
+);
+const OrderModal = lazy(() =>
+  import('./components/OrderModal').then((m) => ({ default: m.OrderModal })),
+);
+
+const ROUTES = ['solutions', 'products', 'portfolio', 'about', 'contact'];
+
+// Legacy hash anchors that map onto a real page.
+const ROUTE_ALIASES: Record<string, string> = {
+  browser: 'products',
+  leadership: 'about',
+};
+
+const isRoute = (value: string) => ROUTES.includes(value);
+
+// '/products/' -> 'products'; '/Products' -> 'products'; unknown -> 'home'
+function pageFromPathname(pathname: string): string {
+  const segment = pathname.split('/').filter(Boolean)[0]?.toLowerCase() ?? '';
+  if (!segment) return 'home';
+  const target = ROUTE_ALIASES[segment] ?? segment;
+  return isRoute(target) ? target : 'home';
+}
+
+const pathForPage = (page: string) => (page === 'home' ? '/' : `/${page}`);
+
+const PAGE_META: Record<string, { title: string; description: string }> = {
+  home: {
+    title:
+      'Gothwad Tech — Sovereign Software Systems, Web Platforms & High-Performance Browsers',
+    description:
+      "Official website of Gothwad Tech — India's premier sovereign software powerhouse founded by Pawan Gothwad. Builders of the ultra-fast Gothwad Browser, enterprise web applications, mobile platforms, and deep-tech digital engineering.",
+  },
+  solutions: {
+    title: 'Enterprise Solutions — Gothwad Tech',
+    description:
+      'Enterprise web and distributed systems, native and cross-platform mobile engineering, applied AI and intelligent automation, and zero-trust cybersecurity from Gothwad Tech.',
+  },
+  products: {
+    title: 'Products — Gothwad Browser & Sovereign Indian Tech | Gothwad Tech',
+    description:
+      'Explore the Gothwad Browser, GrixChat and Indogram — sovereign Indian consumer technology engineered under the Atmanirbhar Bharat mission.',
+  },
+  portfolio: {
+    title: 'Portfolio — Delivered Enterprise Projects | Gothwad Tech',
+    description:
+      'A selection of enterprise platforms, billing systems and high-concurrency web applications delivered by Gothwad Tech for clients across India.',
+  },
+  about: {
+    title: 'About & Leadership — Gothwad Tech',
+    description:
+      'Meet the leadership behind Gothwad Tech and read about our mission to build technological sovereignty for India.',
+  },
+  contact: {
+    title: 'Contact — Start a Project | Gothwad Tech',
+    description:
+      "Talk to the Gothwad Tech engineering team about enterprise web platforms, mobile apps, AI systems or a custom browser build. Reach us by phone, WhatsApp or email.",
+  },
+};
+
+function setMeta(selector: string, attr: 'content' | 'href', value: string) {
+  let el = document.querySelector(selector);
+  if (!el) {
+    // index.html defines the common tags; this only guards against a missing one.
+    const isLink = selector.startsWith('link');
+    el = document.createElement(isLink ? 'link' : 'meta');
+    if (isLink) el.setAttribute('rel', 'canonical');
+    else {
+      const name = selector.includes('property=') ? 'property' : 'name';
+      const raw = selector.match(/\[(?:name|property)="([^"]+)"\]/)?.[1];
+      if (raw) el.setAttribute(name, raw);
+    }
+    document.head.appendChild(el);
+  }
+  el.setAttribute(attr, value);
+}
+
+// '#Products' -> 'products'; '#docs' (a plain in-page anchor) -> null
+function pageFromHash(hash: string): string | null {
+  const raw = hash.replace(/^#/, '').toLowerCase();
+  if (!raw) return null;
+  const target = ROUTE_ALIASES[raw] ?? raw;
+  return isRoute(target) ? target : null;
+}
+
+function RouteFallback() {
+  return (
+    <div className="flex items-center justify-center py-24" role="status" aria-live="polite">
+      <span className="sr-only">Loading page…</span>
+      <div className="w-6 h-6 border-2 border-zinc-300 dark:border-zinc-700 border-t-[#0494f4] rounded-full animate-spin" />
+    </div>
+  );
+}
 
 function AppContent() {
   // Page state: 'home' | 'solutions' | 'products' | 'portfolio' | 'about' | 'contact'
@@ -44,31 +154,46 @@ function AppContent() {
 
   const handleNavigate = (page: string) => {
     setActivePage(page);
-    window.location.hash = page === 'home' ? '' : page;
+    const path = pathForPage(page);
+    if (window.location.pathname !== path) {
+      window.history.pushState({}, '', path);
+    }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  // Sync with window.location.hash on mount and on hash change
+  // Real path routing, with a one-time redirect for legacy hash URLs.
   useEffect(() => {
-    const syncHash = () => {
-      const hash = window.location.hash.replace('#', '').toLowerCase();
-      if (['solutions', 'products', 'browser', 'portfolio', 'about', 'leadership', 'contact'].includes(hash)) {
-        if (hash === 'browser') {
-          setActivePage('products');
-        } else if (hash === 'leadership') {
-          setActivePage('about');
-        } else {
-          setActivePage(hash);
-        }
-      } else {
-        setActivePage('home');
-      }
-    };
+    // Old links like gothwadtech.com/#products are rewritten to /products so
+    // they keep working, and so crawlers see a canonical path. Plain in-page
+    // anchors such as #docs are left untouched.
+    const legacy = pageFromHash(window.location.hash);
+    if (legacy) {
+      window.history.replaceState({}, '', pathForPage(legacy));
+    }
 
-    syncHash();
-    window.addEventListener('hashchange', syncHash);
-    return () => window.removeEventListener('hashchange', syncHash);
+    const sync = () => setActivePage(pageFromPathname(window.location.pathname));
+    sync();
+
+    window.addEventListener('popstate', sync);
+    return () => window.removeEventListener('popstate', sync);
   }, []);
+
+  // Per-route SEO tags — an SPA only gets real SEO value from path routing
+  // if the crawled metadata actually changes with the route.
+  useEffect(() => {
+    const meta = PAGE_META[activePage] ?? PAGE_META.home;
+    const url = `https://gothwadtech.com${pathForPage(activePage)}`;
+
+    document.title = meta.title;
+    setMeta('meta[name="description"]', 'content', meta.description);
+    setMeta('meta[property="og:title"]', 'content', meta.title);
+    setMeta('meta[property="og:description"]', 'content', meta.description);
+    setMeta('meta[property="og:url"]', 'content', url);
+    setMeta('meta[name="twitter:title"]', 'content', meta.title);
+    setMeta('meta[name="twitter:description"]', 'content', meta.description);
+    setMeta('meta[name="twitter:url"]', 'content', url);
+    setMeta('link[rel="canonical"]', 'href', url);
+  }, [activePage]);
 
   return (
     <div className="min-h-screen bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 selection:bg-[#0494f4]/25 selection:text-[#0494f4] flex flex-col font-sans transition-colors duration-200">
@@ -81,47 +206,49 @@ function AppContent() {
 
       {/* Main Page Body */}
       <main className="flex-1 pt-14">
-        {activePage === 'home' && (
-          <HomePage
-            onNavigate={handleNavigate}
-            onOpenOrderModal={handleOpenOrderModal}
-            onOpenBrowserSimulator={() => setIsSimulatorOpen(true)}
-          />
-        )}
+        <Suspense fallback={<RouteFallback />}>
+          {activePage === 'home' && (
+            <HomePage
+              onNavigate={handleNavigate}
+              onOpenOrderModal={handleOpenOrderModal}
+              onOpenBrowserSimulator={() => setIsSimulatorOpen(true)}
+            />
+          )}
 
-        {activePage === 'solutions' && (
-          <SolutionsPage
-            onOpenOrderModal={handleOpenOrderModal}
-            onNavigate={handleNavigate}
-          />
-        )}
+          {activePage === 'solutions' && (
+            <SolutionsPage
+              onOpenOrderModal={handleOpenOrderModal}
+              onNavigate={handleNavigate}
+            />
+          )}
 
-        {activePage === 'products' && (
-          <ProductsPage
-            onOpenBrowserSimulator={() => setIsSimulatorOpen(true)}
-            onOpenOrderModal={handleOpenOrderModal}
-          />
-        )}
+          {activePage === 'products' && (
+            <ProductsPage
+              onOpenBrowserSimulator={() => setIsSimulatorOpen(true)}
+              onOpenOrderModal={handleOpenOrderModal}
+            />
+          )}
 
-        {activePage === 'portfolio' && (
-          <PortfolioPage
-            onSelectProject={(proj) => setSelectedProject(proj)}
-            onOpenOrderModal={handleOpenOrderModal}
-          />
-        )}
+          {activePage === 'portfolio' && (
+            <PortfolioPage
+              onSelectProject={(proj) => setSelectedProject(proj)}
+              onOpenOrderModal={handleOpenOrderModal}
+            />
+          )}
 
-        {activePage === 'about' && (
-          <AboutPage
-            onOpenOrderModal={handleOpenOrderModal}
-            onNavigate={handleNavigate}
-          />
-        )}
+          {activePage === 'about' && (
+            <AboutPage
+              onOpenOrderModal={handleOpenOrderModal}
+              onNavigate={handleNavigate}
+            />
+          )}
 
-        {activePage === 'contact' && (
-          <ContactPage
-            onOpenOrderModal={handleOpenOrderModal}
-          />
-        )}
+          {activePage === 'contact' && (
+            <ContactPage
+              onOpenOrderModal={handleOpenOrderModal}
+            />
+          )}
+        </Suspense>
       </main>
 
       {/* Footer */}
@@ -153,24 +280,36 @@ function AppContent() {
         </a>
       </div>
 
-      {/* Interactive Modals */}
-      <ProjectDetailModal
-        project={selectedProject}
-        onClose={() => setSelectedProject(null)}
-        onOpenOrderModal={handleOpenOrderModal}
-      />
+      {/* Interactive Modals — each chunk is fetched only when opened */}
+      {selectedProject && (
+        <Suspense fallback={null}>
+          <ProjectDetailModal
+            project={selectedProject}
+            onClose={() => setSelectedProject(null)}
+            onOpenOrderModal={handleOpenOrderModal}
+          />
+        </Suspense>
+      )}
 
-      <BrowserSimulatorModal
-        isOpen={isSimulatorOpen}
-        onClose={() => setIsSimulatorOpen(false)}
-        onOpenOrderModal={handleOpenOrderModal}
-      />
+      {isSimulatorOpen && (
+        <Suspense fallback={null}>
+          <BrowserSimulatorModal
+            isOpen
+            onClose={() => setIsSimulatorOpen(false)}
+            onOpenOrderModal={handleOpenOrderModal}
+          />
+        </Suspense>
+      )}
 
-      <OrderModal
-        isOpen={isOrderModalOpen}
-        onClose={() => setIsOrderModalOpen(false)}
-        initialService={modalInitialService}
-      />
+      {isOrderModalOpen && (
+        <Suspense fallback={null}>
+          <OrderModal
+            isOpen
+            onClose={() => setIsOrderModalOpen(false)}
+            initialService={modalInitialService}
+          />
+        </Suspense>
+      )}
     </div>
   );
 }
