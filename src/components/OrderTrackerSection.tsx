@@ -1,19 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-  Search,
-  CheckCircle2,
-  Clock,
-  ShieldCheck,
-  FileCode,
-  Layers,
-  ArrowRight,
-  RefreshCw,
-  ExternalLink,
-  Lock,
-  Sparkles,
-  Phone,
-  Mail,
-} from 'lucide-react';
+import { Search, CheckCircle2, Clock, RefreshCw, Phone, Mail } from 'lucide-react';
 import { safeStorage } from '../utils/safeStorage';
 import { COMPANY_INFO } from '../data/companyData';
 

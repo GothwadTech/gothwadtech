@@ -1,27 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import {
-  Menu,
-  X,
-  Sparkles,
-  Sun,
-  Moon,
-  Laptop,
-  ArrowRight,
-  Phone,
-  Mail,
-  MessageSquare,
-  Building2,
-  Cpu,
-  Layers,
-  Users,
-  Compass,
-  Home,
-  CheckCircle2,
-} from 'lucide-react';
+import { Menu, X, Sparkles, Sun, Moon, ArrowRight, Phone, Mail, MessageSquare, Building2, Cpu, Layers, Users, Home } from 'lucide-react';
 import { COMPANY_INFO } from '../data/companyData';
 import { useTheme } from '../context/ThemeContext';
 import { Logo } from './Logo';
-import { safeOpenExternalLink } from '../utils/browserUtils';
 
 interface NavbarProps {
   activePage: string;

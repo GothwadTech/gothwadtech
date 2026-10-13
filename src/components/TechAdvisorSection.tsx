@@ -1,19 +1,5 @@
 import React, { useState } from 'react';
-import {
-  Compass,
-  Cpu,
-  Layers,
-  Zap,
-  CheckCircle2,
-  Sparkles,
-  ArrowRight,
-  Shield,
-  Clock,
-  Database,
-  Smartphone,
-  Globe,
-  Terminal,
-} from 'lucide-react';
+import { Compass, Cpu, Zap, CheckCircle2, Sparkles, Shield, Clock, Database, Smartphone, Globe, Terminal } from 'lucide-react';
 
 interface TechRecommendation {
   archetype: string;

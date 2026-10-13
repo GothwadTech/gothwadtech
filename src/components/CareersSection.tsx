@@ -1,18 +1,6 @@
 import React, { useState } from 'react';
-import {
-  Briefcase,
-  Users,
-  Sparkles,
-  CheckCircle2,
-  ArrowRight,
-  Send,
-  MapPin,
-  Clock,
-  Shield,
-  FileCheck,
-} from 'lucide-react';
+import { Users, Sparkles, CheckCircle2, ArrowRight, Send, MapPin, Clock, Shield, FileCheck } from 'lucide-react';
 import { safeStorage } from '../utils/safeStorage';
-import { COMPANY_INFO } from '../data/companyData';
 
 interface JobRole {
   id: string;

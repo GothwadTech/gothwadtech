@@ -1,15 +1,5 @@
 import React, { useState } from 'react';
-import {
-  Calculator,
-  TrendingDown,
-  Sparkles,
-  ShieldCheck,
-  Zap,
-  ArrowRight,
-  CheckCircle2,
-  DollarSign,
-  Layers,
-} from 'lucide-react';
+import { Calculator, TrendingDown, Sparkles, ShieldCheck, Zap, CheckCircle2 } from 'lucide-react';
 
 export const RoiCalculatorSection: React.FC<{ onOpenOrderModal: () => void }> = ({ onOpenOrderModal }) => {
   const [currentMonthlySpendInr, setCurrentMonthlySpendInr] = useState<number>(50000);

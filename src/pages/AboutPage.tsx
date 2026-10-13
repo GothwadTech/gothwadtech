@@ -1,21 +1,6 @@
 import React, { useState } from 'react';
-import {
-  Users,
-  ShieldCheck,
-  Award,
-  Sparkles,
-  Mail,
-  Linkedin,
-  Github,
-  CheckCircle2,
-  Building2,
-  Compass,
-  ArrowRight,
-  Code,
-  Layers,
-  HeartHandshake,
-} from 'lucide-react';
-import { TEAM_MEMBERS, COMPANY_INFO } from '../data/companyData';
+import { Users, ShieldCheck, Mail, Compass, HeartHandshake } from 'lucide-react';
+import { TEAM_MEMBERS } from '../data/companyData';
 import { TeamMember } from '../types';
 
 interface AboutPageProps {

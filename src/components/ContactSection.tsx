@@ -1,18 +1,5 @@
 import React, { useState } from 'react';
-import {
-  Mail,
-  MapPin,
-  Send,
-  MessageSquare,
-  Sparkles,
-  CheckCircle2,
-  Phone,
-  Copy,
-  Check,
-  Headphones,
-  HelpCircle,
-  Info,
-} from 'lucide-react';
+import { Mail, Send, MessageSquare, Sparkles, CheckCircle2, Phone, Copy, Check, Headphones, HelpCircle, Info } from 'lucide-react';
 import { COMPANY_INFO } from '../data/companyData';
 import { safeStorage } from '../utils/safeStorage';
 import { safeCopyToClipboard } from '../utils/browserUtils';

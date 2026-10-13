@@ -1,21 +1,5 @@
 import React, { useState } from 'react';
-import {
-  Mail,
-  Phone,
-  MessageSquare,
-  Clock,
-  MapPin,
-  Send,
-  Check,
-  Building2,
-  GraduationCap,
-  Utensils,
-  Store,
-  HelpCircle,
-  Search,
-  ShieldCheck,
-  Sparkles,
-} from 'lucide-react';
+import { Mail, Phone, MessageSquare, MapPin, Send, Check } from 'lucide-react';
 import { COMPANY_INFO } from '../data/companyData';
 import { OrderTrackerSection } from '../components/OrderTrackerSection';
 
