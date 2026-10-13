@@ -16,9 +16,6 @@ import { COMPANY_INFO } from './data/companyData';
 const PortalHome = lazy(() =>
   import('./pages/PortalHome').then((m) => ({ default: m.PortalHome })),
 );
-const SearchPage = lazy(() =>
-  import('./pages/SearchPage').then((m) => ({ default: m.SearchPage })),
-);
 // Corporate (agency) homepage. Kept reachable at /legacy until the company
 // site is live on about.gothwadtech.com — after that it gets deleted here.
 const HomePage = lazy(() =>
@@ -56,7 +53,6 @@ const OrderModal = lazy(() =>
 );
 
 const ROUTES = [
-  'search',
   'legacy',
   'solutions',
   'products',
@@ -89,11 +85,6 @@ const PAGE_META: Record<string, { title: string; description: string }> = {
       'Gothwad Tech — Sovereign Software Systems, Web Platforms & High-Performance Browsers',
     description:
       "Official website of Gothwad Tech — India's premier sovereign software powerhouse founded by Pawan Gothwad. Builders of the ultra-fast Gothwad Browser, enterprise web applications, mobile platforms, and deep-tech digital engineering.",
-  },
-  search: {
-    title: 'Search — Gothwad',
-    description:
-      'Search the web with Gothwad: an AI-written answer up top, real cited sources below.',
   },
   legacy: {
     title: 'Gothwad Tech — Sovereign Software Systems & Digital Engineering',
@@ -164,7 +155,6 @@ function RouteFallback() {
 function AppContent() {
   // Page state: 'home' | 'solutions' | 'products' | 'portfolio' | 'about' | 'contact'
   const [activePage, setActivePage] = useState<string>('home');
-  const [searchQuery, setSearchQuery] = useState<string>('');
 
   // Modal states
   const [selectedProject, setSelectedProject] = useState<ProjectItem | null>(null);
@@ -188,20 +178,7 @@ function AppContent() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  /** Empty query sends the user back to the portal home. */
-  const handleSearch = (q: string) => {
-    if (!q.trim()) {
-      handleNavigate('home');
-      return;
-    }
-    setSearchQuery(q.trim());
-    setActivePage('search');
-    const path = `/search?q=${encodeURIComponent(q.trim())}`;
-    if (window.location.pathname + window.location.search !== path) {
-      window.history.pushState({}, '', path);
-    }
-    window.scrollTo({ top: 0 });
-  };
+
 
   // Real path routing, with a one-time redirect for legacy hash URLs.
   useEffect(() => {
@@ -213,12 +190,7 @@ function AppContent() {
       window.history.replaceState({}, '', pathForPage(legacy));
     }
 
-    const sync = () => {
-      setActivePage(pageFromPathname(window.location.pathname));
-      setSearchQuery(
-        new URLSearchParams(window.location.search).get('q')?.trim() ?? '',
-      );
-    };
+    const sync = () => setActivePage(pageFromPathname(window.location.pathname));
     sync();
 
     window.addEventListener('popstate', sync);
@@ -242,9 +214,9 @@ function AppContent() {
     setMeta('link[rel="canonical"]', 'href', url);
   }, [activePage]);
 
-  // The portal (home + search) ships its own bar and footer, so the corporate
-  // Navbar/Footer must not double up on those routes.
-  const isPortal = activePage === 'home' || activePage === 'search';
+  // The portal ships its own bar and footer, so the corporate Navbar/Footer
+  // must not double up on that route.
+  const isPortal = activePage === 'home';
 
   return (
     <div className="min-h-screen bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 selection:bg-[#0494f4]/25 selection:text-[#0494f4] flex flex-col font-sans transition-colors duration-200">
@@ -260,14 +232,7 @@ function AppContent() {
       {/* Main Page Body */}
       <main className={`flex-1 ${isPortal ? '' : 'pt-14'}`}>
         <Suspense fallback={<RouteFallback />}>
-          {activePage === 'home' && <PortalHome onSearch={handleSearch} />}
-
-          {activePage === 'search' && (
-            <SearchPage
-              query={searchQuery}
-              onSearch={handleSearch}
-            />
-          )}
+          {activePage === 'home' && <PortalHome />}
 
           {activePage === 'legacy' && (
             <HomePage

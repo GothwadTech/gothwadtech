@@ -29,15 +29,16 @@ whole Gothwad ecosystem.
 | `mail.`, `drive.`, `meet.`, `tube.`, `store.`, `notes.`, `calendar.`, `contacts.` | Ecosystem apps |
 | `about.gothwadtech.com` | Company / agency site (corporate content) |
 
-**Portal homepage = search bar UPAR + product shortcuts NICHE (main body).**
-Sirf search bar nahi — product tiles hi main content hain.
+**Portal homepage = product shortcuts hi main content hain.**
+⚠️ **Is site par KOI SEARCH SYSTEM NAHI HAI.** Search bar nahi, `/search` route
+nahi, koi search API nahi. Pawan ne explicitly kaha (2026-10-13): search nahi
+chahiye, sirf product shortcuts. Dobara search add mat karna bina poochhe.
 
 ### Routes (sab real paths, hash nahi)
 
 | Path | Kya hai |
 |---|---|
-| `/` | Portal home — wordmark, search bar, product shortcuts, footer |
-| `/search?q=...` | Results: AI answer card upar, cited sources niche |
+| `/` | Portal home — wordmark, product shortcuts, footer |
 | `/auth/callback` | OAuth return from Accounts (🔜 TODO) |
 | `/legacy` | Purani corporate homepage — **temporary**, delete after about. site is live |
 | `/solutions`, `/products`, `/portfolio`, `/about`, `/contact` | Corporate pages — inhe bhi `about.` pe move karna hai |
@@ -47,10 +48,11 @@ Sirf search bar nahi — product tiles hi main content hain.
 | Layer | Tech |
 |---|---|
 | Frontend | React 19 + Vite + Tailwind v4 → Cloudflare **Pages** |
-| Search API | Cloudflare **Worker** (`worker/`) + OpenRouter |
-| KV | Cloudflare KV — search cache + rate limit |
 | Auth | Gothwad Accounts (OAuth 2.0 + PKCE) |
 | DNS/CDN/SSL | Cloudflare |
+
+**Koi backend/API nahi hai** — yeh ek static SPA hai. (Agar OAuth ke liye
+httpOnly cookie chahiye toh baad mein ek chhota Worker add ho sakta hai.)
 
 **Paid service kabhi suggest mat karo** — sab free tier mein fit hona chahiye.
 
@@ -72,52 +74,27 @@ Sirf search bar nahi — product tiles hi main content hain.
 5. **Naye product add karo** toh `src/data/gothwadApps.ts` mein add karo AUR
    `accounts/web/js/gothwad-apps.js` mein bhi — dono sync mein rakhne hain.
 
-## 5. 🔍 SEARCH — KAISE KAAM KARTA HAI
-
-```
-Browser ──POST /api/search {q}──► Worker ──► OpenRouter ──► answer + sources
-                                    │
-                                    └─ KV cache (repeat query = free)
-```
-
-**Fake URLs ka khatra:** model se direct "10 links do" mat mangwana — wo URLs
-ghadh deta hai. Isliye OpenRouter ka web search use karte hain, jo
-`url_citation` annotations mein **REAL** URLs deta hai. Model sirf upar ka
-answer likhta hai. `extractSources()` in worker/src/index.ts dekho.
-
-**Cost (ZERO-BUDGET ke liye important):**
-- Model `:free` hai, par **web search alag se billed hai** (~$4/1000 results).
-- `SEARCH_MAX_RESULTS = 10` → ~$0.04 per query.
-- Isliye KV cache (`CACHE_TTL_SECONDS`) + `DAILY_QUERY_LIMIT` zaroori hain.
-- Agar cost badhe toh pehle `SEARCH_MAX_RESULTS` ghatao, cache badhao.
-
-## 6. 🚦 CURRENT STATUS (last updated: 2026-10-13)
+## 5. 🚦 CURRENT STATUS (last updated: 2026-10-13)
 
 | Step | Kya | Status |
 |------|-----|--------|
 | 1 | Repo cleanup (dead code, ESLint, path routing, CI) | ✅ DONE (PR #1) |
-| 2 | Portal home: search + product shortcuts | ✅ DONE |
-| 3 | `/search` results page (AI answer + sources) | ✅ DONE (UI) |
-| 4 | Search Worker (`worker/`) | ✅ DONE — **API key set karni baaki** |
-| 5 | OAuth account chip (Sign in / avatar) | 🔜 NEXT |
-| 6 | Corporate content → `about.gothwadtech.com` | 📋 Planned |
+| 2 | Portal home: product shortcuts + app launcher + account chip | ✅ DONE |
+| 3 | OAuth account chip (Sign in → avatar) | 🔜 NEXT |
+| 4 | Corporate content → `about.gothwadtech.com` | 📋 Planned |
 
-**Live status + task board: `TASK.md`** (woh fresh rahta hai, yahan stale ho
-sakta hai).
+> Ek AI-search version (OpenRouter + Cloudflare Worker) banaya gaya tha aur
+> phir **hata diya gaya** — Pawan ko search chahiye hi nahi tha. History mein
+> commit `2246bc4` se pehle mil jayega agar kabhi dobara chahiye.
 
-## 7. ▶️ LOCAL DEV
+## 6. ▶️ LOCAL DEV
 
 ```bash
 npm install
 npm run dev              # portal on :3000
-
-# Search Worker (alag terminal) — pehle worker/ mein install karna padega
-cd worker && npm install
-cp .dev.vars.example .dev.vars    # OPENROUTER_API_KEY daalo
-npm run worker:dev                # Worker on :8787
 ```
 
-Bina API key ke search page dikhega par "AI search is not enabled yet" bolega.
-Key set karte hi kaam shuru.
-
 `npm run verify` = typecheck + lint + build (CI bhi yahi chalta hai).
+
+**Live status + task board: `TASK.md`** (woh fresh rahta hai, yahan stale ho
+sakta hai).

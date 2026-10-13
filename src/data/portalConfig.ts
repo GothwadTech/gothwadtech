@@ -42,9 +42,6 @@ export const OAUTH_SCOPES: string = 'profile email';
 /** Corporate / company site (agency content). */
 export const ABOUT_URL: string = env.VITE_ABOUT_URL || `https://about.${ROOT_DOMAIN}`;
 
-/** Search API served by this repo's Cloudflare Worker. Empty = not wired yet. */
-export const SEARCH_API: string = env.VITE_SEARCH_API || '/api/search';
-
 export const PORTAL_CONFIG = {
   ROOT_DOMAIN,
   PORTAL_URL,
@@ -54,5 +51,4 @@ export const PORTAL_CONFIG = {
   OAUTH_REDIRECT_URI,
   OAUTH_SCOPES,
   ABOUT_URL,
-  SEARCH_API,
 };

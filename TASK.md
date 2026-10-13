@@ -34,32 +34,32 @@ Dead code, housekeeping, tooling, routing, CI.
 - [x] `src/data/gothwadApps.ts` — ecosystem catalog (13 apps, accounts se port)
 - [x] `src/data/portalConfig.ts` — **Rule #1**, saare domains ek jagah
 - [x] `src/components/portal/AppShortcuts.tsx` — product tiles (main body)
-- [x] `src/components/portal/SearchBox.tsx` — hero + bar variants
 - [x] `src/components/portal/PortalBar.tsx` — app launcher (9-dot) + theme + Sign in
-- [x] `src/pages/PortalHome.tsx` — wordmark + search + shortcuts + footer
-- [x] `src/pages/SearchPage.tsx` — AI answer card + cited sources + loading/error
-- [x] `src/types/search.ts`, `src/services/searchApi.ts`
-- [x] Routing: `/` portal, `/search?q=`, `/legacy` (corporate home preserved)
+- [x] `src/pages/PortalHome.tsx` — wordmark + product shortcuts + footer
+- [x] Routing: `/` portal, `/legacy` (corporate home preserved)
 - [x] Global Navbar/Footer/WhatsApp sirf corporate pages pe (portal pe apne hain)
-- [x] `worker/` — Cloudflare Worker (OpenRouter, KV cache, rate limit, CORS)
 - [x] `AGENTS.md` + `TASK.md` (accounts/mail wala convention)
-- [x] `tsconfig.json` exclude `worker/` (uska apna tsconfig hai)
+
+### Session 2b — Search HATA DIYA (2026-10-13)
+Pawan ne clear kiya: **search chahiye hi nahi.** Jo search system banaya tha
+wo sab revert kar diya:
+- [x] `src/components/portal/SearchBox.tsx` delete
+- [x] `src/pages/SearchPage.tsx` delete
+- [x] `src/services/searchApi.ts` + `src/types/search.ts` delete
+- [x] `worker/` (OpenRouter, KV cache, rate limit) delete — poora folder
+- [x] App.tsx se `/search` route, `searchQuery`, `handleSearch` hataaye
+- [x] `portalConfig.ts` se `SEARCH_API`, `vite-env.d.ts` se `VITE_SEARCH_API`
+- [x] `package.json` se `worker:*` scripts, `tsconfig.json` se worker exclude
+- [x] AGENTS.md + TASK.md update (search ka koi zikr nahi)
+
+⚠️ **Yaad rakho: is project mein search system NAHI hai.** Dobara mat banana
+bina poochhe. (Agar kabhi chahiye: commit `2246bc4` se pehle history mein hai.)
 
 ---
 
 ## 🔜 NEXT (priority order)
 
-### 1. Search Worker ko zinda karo
-- [ ] `worker/wrangler.toml` mein `[[kv_namespaces]] id` apna KV namespace ID daalo
-      (`npx wrangler kv namespace create SEARCH_CACHE`)
-- [ ] `npm run worker:secrets:set` → `OPENROUTER_API_KEY` daalo
-- [ ] `npm run worker:deploy`
-- [ ] Cloudflare dashboard: route `gothwadtech.com/api/*` → Worker `gothwad-portal`
-- [ ] `/api/health` check karo → `{ ok: true, configured: true }`
-- [ ] Ek real query try karo; agar `SEARCH_MODE = online` fail ho toh
-      `server_tool` try karo (OpenRouter ka naya tareeka)
-
-### 2. OAuth account chip (Sign in → avatar)
+### 1. OAuth account chip (Sign in → avatar)
 - [ ] Accounts repo: `ecosystem_apps` mein client register karo —
       `client_id = gothwad-portal`,
       `redirect_uri = https://gothwadtech.com/auth/callback`
@@ -67,16 +67,14 @@ Dead code, housekeeping, tooling, routing, CI.
 - [ ] `PortalBar` mein avatar + name + "Manage your Gothwad Account" + Sign out
 - [ ] Token storage decide: memory vs httpOnly cookie (cookie ke liye Worker chahiye)
 
-### 3. Corporate content → `about.gothwadtech.com`
+### 2. Corporate content → `about.gothwadtech.com`
 - [ ] Naya Cloudflare Pages project `about.gothwadtech.com` ke liye
 - [ ] Corporate pages (`/solutions`, `/products`, `/portfolio`, `/about`,
       `/contact`, `/legacy`) wahan deploy
 - [ ] Is repo se corporate pages + `/legacy` delete
 - [ ] Portal footer ka "About" link check
 
-### 4. Baad mein
-- [ ] Search suggestions / autocomplete
-- [ ] Recent searches (localStorage)
+### 3. Baad mein
 - [ ] `gothwad.in` domain pe switch (AGENTS.md mein future domain likha hai)
 
 ---
@@ -85,13 +83,13 @@ Dead code, housekeeping, tooling, routing, CI.
 
 1. **Cloudflare Pages SPA fallback** — `_redirects` zaroori hai. Workers pe
    jaoge toh wo kaam nahi karega (`not_found_handling` chahiye).
-2. **Fake URLs** — model se links mat mangwana, OpenRouter ke
-   `url_citation` annotations use karo.
-3. **Search cost** — free model par bhi web search billed hai ($4/1000 results).
-   Cache + daily limit hatao mat.
-4. **Domain hardcode** — `portalConfig.ts` / `wrangler.toml` ke alawa kahin nahi.
-5. **Sandbox reset** — kabhi kabhi git objects lost ho jate hain aur commits
-   gayab ho jate hain (working tree rehta hai). Push karte raho.
+2. **KOI SEARCH NAHI** — Pawan ko search system chahiye hi nahi. Search bar,
+   `/search` route, search API kuch nahi. Product shortcuts hi hain.
+3. **Domain hardcode** — `src/data/portalConfig.ts` ke alawa kahin nahi
+   (Rule #1, accounts repo se).
+4. **Sandbox reset** — kabhi kabhi git objects lost ho jate hain aur commits
+   gayab ho jate hain (working tree + node_modules bhi chala jata hai).
+   Baar baar push karte raho, aur verify se pehle `npm install` check karo.
 
 ---
 
@@ -107,3 +105,13 @@ Dead code, housekeeping, tooling, routing, CI.
   - Homepage: **product shortcuts main body**, search bar bhi rahega
   - Design: **apna brand** (`#0494f4` + lucide), Google palette NAHI
 - Workers pe deploy baad mein karna hai (mail repo jaisa).
+
+### 2026-10-13 (Session 2b) — CORRECTION
+- maine Pawan ka message galat padha tha: unhone pehle hi kaha tha
+  "search bar ki jagah product shortcuts". Maine "search bhi rakhna" ko
+  "keep search too" samajh liya — galat.
+- Pawan ne clear kiya: **"mujhe search system chahiye hi nahi"**.
+- Poora search system revert kar diya (SearchBox, SearchPage, searchApi,
+  types, worker/ folder, /search route).
+- Seekh: Hinglish mein "X ki jagah Y" ka matlab hai X HATAO, Y lagao —
+  "bhi rakhna" wale hisse par confirm zaroor kar lo.

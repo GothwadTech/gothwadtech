@@ -1,12 +1,10 @@
 import React from 'react';
 import { Logo } from '../components/Logo';
 import { PortalBar } from '../components/portal/PortalBar';
-import { SearchBox } from '../components/portal/SearchBox';
 import { AppShortcuts } from '../components/portal/AppShortcuts';
 import { ABOUT_URL, ROOT_DOMAIN } from '../data/portalConfig';
 
 interface PortalHomeProps {
-  onSearch: (q: string) => void;
   user?: { name: string; username: string; avatarUrl?: string } | null;
 }
 
@@ -18,27 +16,23 @@ const FOOTER_LINKS = [
 ];
 
 /**
- * The portal homepage: Gothwad wordmark + search bar, with the ecosystem
- * product shortcuts as the main body of the page (not just a bare search box).
+ * The portal homepage: the Gothwad wordmark with the ecosystem product
+ * shortcuts as the main body of the page. There is deliberately no search
+ * box here — the shortcuts are the point of this page.
  */
-export const PortalHome: React.FC<PortalHomeProps> = ({ onSearch, user = null }) => {
+export const PortalHome: React.FC<PortalHomeProps> = ({ user = null }) => {
   return (
     <div className="min-h-[calc(100vh-3.5rem)] flex flex-col">
       <PortalBar user={user} />
 
-      {/* Main: search + product shortcuts */}
-      <main className="flex-1 flex flex-col items-center px-4 sm:px-6 pt-6 sm:pt-12 pb-10">
-        <Logo size="lg" className="mb-6 sm:mb-8" />
-
-        <SearchBox
-          variant="hero"
-          autoFocus
-          onSubmitQuery={onSearch}
-          className="mb-8 sm:mb-10"
-        />
+      <main className="flex-1 flex flex-col items-center px-4 sm:px-6 pt-10 sm:pt-16 pb-10">
+        <Logo size="lg" className="mb-8 sm:mb-10" />
 
         <div className="w-full max-w-4xl">
-          <h2 className="sr-only">Gothwad products</h2>
+          <h1 className="sr-only">Gothwad</h1>
+          <p className="text-center text-sm sm:text-base text-zinc-500 dark:text-zinc-400 mb-5 sm:mb-6">
+            Everything Gothwad, in one place.
+          </p>
           <AppShortcuts variant="grid" />
         </div>
       </main>
