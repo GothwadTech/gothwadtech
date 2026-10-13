@@ -12,7 +12,15 @@ import { ProjectItem } from './types';
 import { MessageSquare, Phone } from 'lucide-react';
 import { COMPANY_INFO } from './data/companyData';
 
-// Distinct Pages — code-split so the initial bundle only carries Home.
+// Distinct Pages — code-split so the initial bundle only carries the portal.
+const PortalHome = lazy(() =>
+  import('./pages/PortalHome').then((m) => ({ default: m.PortalHome })),
+);
+const SearchPage = lazy(() =>
+  import('./pages/SearchPage').then((m) => ({ default: m.SearchPage })),
+);
+// Corporate (agency) homepage. Kept reachable at /legacy until the company
+// site is live on about.gothwadtech.com — after that it gets deleted here.
 const HomePage = lazy(() =>
   import('./pages/HomePage').then((m) => ({ default: m.HomePage })),
 );
@@ -47,7 +55,15 @@ const OrderModal = lazy(() =>
   import('./components/OrderModal').then((m) => ({ default: m.OrderModal })),
 );
 
-const ROUTES = ['solutions', 'products', 'portfolio', 'about', 'contact'];
+const ROUTES = [
+  'search',
+  'legacy',
+  'solutions',
+  'products',
+  'portfolio',
+  'about',
+  'contact',
+];
 
 // Legacy hash anchors that map onto a real page.
 const ROUTE_ALIASES: Record<string, string> = {
@@ -73,6 +89,16 @@ const PAGE_META: Record<string, { title: string; description: string }> = {
       'Gothwad Tech — Sovereign Software Systems, Web Platforms & High-Performance Browsers',
     description:
       "Official website of Gothwad Tech — India's premier sovereign software powerhouse founded by Pawan Gothwad. Builders of the ultra-fast Gothwad Browser, enterprise web applications, mobile platforms, and deep-tech digital engineering.",
+  },
+  search: {
+    title: 'Search — Gothwad',
+    description:
+      'Search the web with Gothwad: an AI-written answer up top, real cited sources below.',
+  },
+  legacy: {
+    title: 'Gothwad Tech — Sovereign Software Systems & Digital Engineering',
+    description:
+      'The Gothwad Tech company site: enterprise web platforms, mobile apps, AI systems and the Gothwad Browser.',
   },
   solutions: {
     title: 'Enterprise Solutions — Gothwad Tech',
@@ -138,6 +164,7 @@ function RouteFallback() {
 function AppContent() {
   // Page state: 'home' | 'solutions' | 'products' | 'portfolio' | 'about' | 'contact'
   const [activePage, setActivePage] = useState<string>('home');
+  const [searchQuery, setSearchQuery] = useState<string>('');
 
   // Modal states
   const [selectedProject, setSelectedProject] = useState<ProjectItem | null>(null);
@@ -161,6 +188,21 @@ function AppContent() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  /** Empty query sends the user back to the portal home. */
+  const handleSearch = (q: string) => {
+    if (!q.trim()) {
+      handleNavigate('home');
+      return;
+    }
+    setSearchQuery(q.trim());
+    setActivePage('search');
+    const path = `/search?q=${encodeURIComponent(q.trim())}`;
+    if (window.location.pathname + window.location.search !== path) {
+      window.history.pushState({}, '', path);
+    }
+    window.scrollTo({ top: 0 });
+  };
+
   // Real path routing, with a one-time redirect for legacy hash URLs.
   useEffect(() => {
     // Old links like gothwadtech.com/#products are rewritten to /products so
@@ -171,7 +213,12 @@ function AppContent() {
       window.history.replaceState({}, '', pathForPage(legacy));
     }
 
-    const sync = () => setActivePage(pageFromPathname(window.location.pathname));
+    const sync = () => {
+      setActivePage(pageFromPathname(window.location.pathname));
+      setSearchQuery(
+        new URLSearchParams(window.location.search).get('q')?.trim() ?? '',
+      );
+    };
     sync();
 
     window.addEventListener('popstate', sync);
@@ -195,19 +242,34 @@ function AppContent() {
     setMeta('link[rel="canonical"]', 'href', url);
   }, [activePage]);
 
+  // The portal (home + search) ships its own bar and footer, so the corporate
+  // Navbar/Footer must not double up on those routes.
+  const isPortal = activePage === 'home' || activePage === 'search';
+
   return (
     <div className="min-h-screen bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 selection:bg-[#0494f4]/25 selection:text-[#0494f4] flex flex-col font-sans transition-colors duration-200">
-      {/* Top Navbar */}
-      <Navbar
-        activePage={activePage}
-        onNavigate={handleNavigate}
-        onOpenOrderModal={handleOpenOrderModal}
-      />
+      {/* Top Navbar — corporate pages only */}
+      {!isPortal && (
+        <Navbar
+          activePage={activePage}
+          onNavigate={handleNavigate}
+          onOpenOrderModal={handleOpenOrderModal}
+        />
+      )}
 
       {/* Main Page Body */}
-      <main className="flex-1 pt-14">
+      <main className={`flex-1 ${isPortal ? '' : 'pt-14'}`}>
         <Suspense fallback={<RouteFallback />}>
-          {activePage === 'home' && (
+          {activePage === 'home' && <PortalHome onSearch={handleSearch} />}
+
+          {activePage === 'search' && (
+            <SearchPage
+              query={searchQuery}
+              onSearch={handleSearch}
+            />
+          )}
+
+          {activePage === 'legacy' && (
             <HomePage
               onNavigate={handleNavigate}
               onOpenOrderModal={handleOpenOrderModal}
@@ -251,14 +313,20 @@ function AppContent() {
         </Suspense>
       </main>
 
-      {/* Footer */}
-      <Footer
-        onNavigate={handleNavigate}
-        onOpenOrderModal={handleOpenOrderModal}
-      />
+      {/* Footer — corporate pages only */}
+      {!isPortal && (
+        <Footer
+          onNavigate={handleNavigate}
+          onOpenOrderModal={handleOpenOrderModal}
+        />
+      )}
 
-      {/* Floating Action WhatsApp & Phone Contact */}
-      <div className="fixed bottom-5 right-5 z-40 flex items-center gap-2">
+      {/* Floating Action WhatsApp & Phone Contact — corporate pages only */}
+      <div
+        className={`fixed bottom-5 right-5 z-40 flex items-center gap-2 ${
+          isPortal ? 'hidden' : ''
+        }`}
+      >
         <a
           href="tel:07339904665"
           className="hidden sm:flex items-center gap-1.5 px-3 py-2 rounded-full bg-zinc-900 dark:bg-zinc-800 hover:bg-zinc-800 text-white font-bold text-xs shadow-md border border-zinc-700 transition-colors cursor-pointer"

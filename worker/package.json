@@ -1,0 +1,17 @@
+{
+  "name": "gothwad-portal-worker",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "secrets:list": "wrangler secret list",
+    "secrets:set": "wrangler secret put OPENROUTER_API_KEY",
+    "typecheck": "tsc --noEmit -p ."
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20251009.0",
+    "typescript": "~5.8.2",
+    "wrangler": "^4.40.0"
+  }
+}
