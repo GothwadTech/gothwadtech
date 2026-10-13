@@ -1,0 +1,14 @@
+# Cloudflare Pages SPA fallback.
+#
+# Required because the site uses real paths (/products, /contact, ...)
+# rather than hash URLs. Cloudflare Pages does not rewrite unknown paths
+# by default, so without this a hard refresh or a directly opened deep
+# link 404s -- only / would work.
+#
+# Static assets are matched and served before this rule, so /favicon.ico,
+# /manifest.json, /sitemap.xml and /assets/* still return their real
+# content rather than index.html.
+#
+# This covers Cloudflare Pages; vercel.json covers Vercel.
+
+/*    /index.html   200
