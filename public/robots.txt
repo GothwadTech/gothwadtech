@@ -1,0 +1,35 @@
+# Gothwad Tech — https://gothwadtech.com
+# Primary domain is gothwadtech.com (non-www). www → apex 301.
+
+User-agent: *
+Allow: /
+# Allow all important SEO assets explicitly (prevents accidental noindex on icons/manifest)
+Allow: /favicon.ico
+Allow: /favicon-*.png
+Allow: /apple-touch-icon.png
+Allow: /icon-*.png
+Allow: /logo.svg
+Allow: /manifest.json
+Allow: /assets/
+Allow: /sitemap.xml
+# Block private/internal areas
+Disallow: /api/
+Disallow: /admin/
+Disallow: /*?*utm_*
+Disallow: /*?*fbclid*
+Disallow: /*?*gclid*
+
+# Crawlers: obey crawl-friendly sitemap
+Sitemap: https://gothwadtech.com/sitemap.xml
+
+# Host directive (legacy Bing support — canonical is via link rel=canonical + 301 in _redirects)
+Host: https://gothwadtech.com
+
+User-agent: GPTBot
+Allow: /
+User-agent: Claude-Web
+Allow: /
+User-agent: PerplexityBot
+Allow: /
+User-agent: Google-Extended
+Allow: /

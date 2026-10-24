@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/"
+                       xmlns:moz="http://www.mozilla.org/2006/browser/search/">
+  <ShortName>Gothwad Tech</ShortName>
+  <Description>Search all Gothwad products — Mail, Drive, Meet, Tube, Browser, GrixChat and more.</Description>
+  <InputEncoding>UTF-8</InputEncoding>
+  <Image width="16" height="16" type="image/x-icon">https://gothwadtech.com/favicon.ico</Image>
+  <Url type="text/html" template="https://gothwadtech.com/ecosystem?q={searchTerms}" />
+  <Url type="application/opensearchdescription+xml" rel="self" template="https://gothwadtech.com/opensearch.xml" />
+  <Developer>Gothwad Tech Private Limited</Developer>
+  <Attribution>© 2026 Gothwad Tech — gothwadtech.com</Attribution>
+  <Language>en-IN</Language>
+</OpenSearchDescription>

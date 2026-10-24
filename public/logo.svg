@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <!-- Background Square with Curved Corners -->
+    <clipPath id="square-curve">
+      <rect width="512" height="512" rx="110" ry="110" />
+    </clipPath>
+    <!-- Circular Shield Gradient -->
+    <radialGradient id="circle-grad" cx="50%" cy="45%" r="50%">
+      <stop offset="0%" stop-color="#0a192f" />
+      <stop offset="70%" stop-color="#032b4f" />
+      <stop offset="100%" stop-color="#021c33" />
+    </radialGradient>
+    <!-- Brand Cyan-Electric Gradient -->
+    <linearGradient id="brand-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="50%" stop-color="#0494f4" />
+      <stop offset="100%" stop-color="#0066b2" />
+    </linearGradient>
+    <linearGradient id="neon-glow" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="100%" stop-color="#38bdf8" />
+    </linearGradient>
+  </defs>
+
+  <!-- Square Base with Theme Color #0494f4 -->
+  <rect width="512" height="512" rx="110" fill="#0494f4" />
+
+  <!-- Centered Circular Emblem -->
+  <g transform="translate(256, 256)">
+    <!-- Outer Glow Ring -->
+    <circle r="226" fill="none" stroke="#ffffff" stroke-width="4" opacity="0.3" />
+    <circle r="220" fill="url(#circle-grad)" stroke="#38bdf8" stroke-width="6" />
+
+    <!-- Stylized Sovereign 'G' + Forward Vector -->
+    <!-- Arc of G -->
+    <path
+      d="M 60,-125 A 140,140 0 1,0 140,40 L 40,40 L 40,0 L 95,0 A 95,95 0 1,1 40,-90 L 60,-125 Z"
+      fill="url(#neon-glow)"
+    />
+    
+    <!-- Forward Cyber Arrow / Tech Chevron -->
+    <path
+      d="M 20,-45 L 80,-45 L 120,0 L 80,45 L 20,45 L 60,0 Z"
+      fill="url(#brand-grad)"
+    />
+
+    <!-- Center Power Core Node -->
+    <circle r="26" fill="#0494f4" />
+    <circle r="14" fill="#ffffff" />
+  </g>
+</svg>

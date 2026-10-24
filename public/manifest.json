@@ -1,0 +1,48 @@
+{
+  "id": "https://gothwadtech.com/",
+  "name": "Gothwad Tech — Official Website",
+  "short_name": "Gothwad Tech",
+  "description": "Official portal of Gothwad Tech — one account for Mail, Drive, Meet, Store, Tube, GrixChat, Indogram, Browser, Education, AI and Docs. Sovereign tech from India.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone", "browser"],
+  "orientation": "any",
+  "background_color": "#ffffff",
+  "theme_color": "#0494f4",
+  "lang": "en-IN",
+  "dir": "ltr",
+  "categories": ["business", "productivity", "utilities", "developer-tools", "education", "social"],
+  "handle_links": "preferred",
+  "launch_handler": { "client_mode": ["auto", "navigate-new", "focus-existing"] },
+  "icons": [
+    { "src": "/favicon.ico", "type": "image/x-icon", "sizes": "16x16 32x32 48x48" },
+    { "src": "/favicon-16x16.png", "type": "image/png", "sizes": "16x16" },
+    { "src": "/favicon-32x32.png", "type": "image/png", "sizes": "32x32" },
+    { "src": "/favicon-48x48.png", "type": "image/png", "sizes": "48x48" },
+    { "src": "/assets/icons/icon-48.png", "type": "image/png", "sizes": "48x48" },
+    { "src": "/assets/icons/icon-72.png", "type": "image/png", "sizes": "72x72" },
+    { "src": "/assets/icons/icon-96.png", "type": "image/png", "sizes": "96x96" },
+    { "src": "/assets/icons/icon-144.png", "type": "image/png", "sizes": "144x144" },
+    { "src": "/assets/icons/icon-192.png", "type": "image/png", "sizes": "192x192", "purpose": "any" },
+    { "src": "/assets/icons/icon-384.png", "type": "image/png", "sizes": "384x384", "purpose": "any" },
+    { "src": "/assets/icons/icon-512.png", "type": "image/png", "sizes": "512x512", "purpose": "any" },
+    { "src": "/assets/icons/icon-192-maskable.png", "type": "image/png", "sizes": "192x192", "purpose": "maskable" },
+    { "src": "/assets/icons/icon-512-maskable.png", "type": "image/png", "sizes": "512x512", "purpose": "maskable" },
+    { "src": "/apple-touch-icon.png", "type": "image/png", "sizes": "180x180" }
+  ],
+  "screenshots": [
+    { "src": "/assets/brand/og-image.png", "type": "image/png", "sizes": "512x512", "form_factor": "wide", "label": "Gothwad Tech — everything Gothwad, in one place" }
+  ],
+  "shortcuts": [
+    { "name": "Ecosystem — All Products", "short_name": "Ecosystem", "description": "Browse all Gothwad products with direct links", "url": "/ecosystem", "icons": [{ "src": "/assets/icons/icon-192.png", "sizes": "192x192" }] },
+    { "name": "Gothwad Mail", "short_name": "Mail", "description": "Open your Gothwad inbox", "url": "https://mail.gothwadtech.com", "icons": [{ "src": "/assets/icons/icon-192.png", "sizes": "192x192" }] },
+    { "name": "Gothwad Docs", "short_name": "Docs", "description": "Developer documentation", "url": "https://docs.gothwadtech.com", "icons": [{ "src": "/assets/icons/icon-192.png", "sizes": "192x192" }] },
+    { "name": "Gothwad Tube", "short_name": "Tube", "description": "A better way to watch", "url": "https://tube.gothwadtech.com", "icons": [{ "src": "/assets/icons/icon-192.png", "sizes": "192x192" }] }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false,
+  "edge_side_panel": { "preferred_width": 400 },
+  "file_handlers": [],
+  "protocol_handlers": []
+}
