@@ -22,8 +22,11 @@ const ROUTE_ALIASES: Record<string, string> = {
   leadership: 'company',
 };
 
+import { parseAuthuserFromUrl, stripAuthuserPath, buildAccountSlotPath } from './config/brand';
+
 function pageFromPathname(pathname: string): string {
-  const seg = pathname.split('/').filter(Boolean)[0]?.toLowerCase() ?? '';
+  const clean = stripAuthuserPath(pathname);
+  const seg = clean.split('/').filter(Boolean)[0]?.toLowerCase() ?? '';
   if (!seg) return 'home';
   const target = ROUTE_ALIASES[seg] ?? seg;
   return ROUTES.includes(target) ? target : 'home';
@@ -36,7 +39,15 @@ function pageFromHash(hash: string): string | null {
   return ROUTES.includes(target) ? target : null;
 }
 
-const pathForPage = (page: string) => (page === 'home' ? '/' : `/${page}`);
+const pathForPage = (page: string) => {
+  const base = page === 'home' ? '/' : `/${page}`;
+  // Preserve /u/<n>/ slot like Gmail so authuser stays in URL (and for SSO header)
+  try {
+    const { authuser, hasExplicitSlot } = parseAuthuserFromUrl(window.location.pathname, window.location.search);
+    if (hasExplicitSlot) return `${buildAccountSlotPath(authuser)}${base === '/' ? '' : base.slice(1)}`.replace(/\/\//g, '/') || '/';
+  } catch {}
+  return base;
+};
 
 type PageMeta = {
   title: string;
