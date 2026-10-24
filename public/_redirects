@@ -1,0 +1,25 @@
+# Cloudflare Pages — SPA fallback
+#
+# Required because the site uses real paths (/products, /contact, ...)
+# rather than hash URLs. Cloudflare Pages serves static files and 404s
+# anything it cannot match, so without this rule a hard refresh or a
+# directly opened deep link 404s -- only / would work.
+#
+# Static assets are matched and served before this rule, so /favicon.ico,
+# /manifest.json, /sitemap.xml and /assets/* keep their real content
+# instead of falling through to index.html.
+#
+# NOTE for a future move to Cloudflare Workers:
+# Workers does NOT use this file for the SPA fallback. Configure it in
+# wrangler.jsonc instead:
+#
+#     "assets": {
+#       "directory": "./dist",
+#       "not_found_handling": "single-page-application"
+#     }
+#
+# If Worker code is added alongside the assets, you also need
+# "binding": "ASSETS" and an env.ASSETS.fetch(request) fallback in the
+# Worker for unmatched paths.
+
+/*    /index.html   200

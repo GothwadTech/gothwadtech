@@ -1,0 +1,10 @@
+# Gothwad Tech - Search Engine Robots File
+# https://gothwadtech.com
+
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+
+# Sitemaps
+Sitemap: https://gothwadtech.com/sitemap.xml

@@ -1,0 +1,73 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-brand-50: #eef8ff;
+  --color-brand-100: #d8efff;
+  --color-brand-200: #bae3ff;
+  --color-brand-300: #8bd3ff;
+  --color-brand-400: #54baff;
+  --color-brand-500: #0494f4;
+  --color-brand-600: #0077cd;
+  --color-brand-700: #005fa7;
+  --color-brand-800: #045089;
+  --color-brand-900: #0a4372;
+  --color-brand-950: #062b4c;
+  --color-brand: #0494f4;
+
+  --color-zinc-950: #202124;
+  --color-zinc-900: #292a2d;
+  --color-zinc-850: #2e2f33;
+  --color-zinc-800: #303134;
+  --color-zinc-700: #3c4043;
+  --color-zinc-600: #5f6368;
+  --color-zinc-500: #80868b;
+  --color-zinc-400: #9aa0a6;
+  --color-zinc-300: #bdc1c6;
+  --color-zinc-200: #dadce0;
+  --color-zinc-100: #f1f3f4;
+  --color-zinc-50: #f8f9fa;
+}
+
+:root {
+  --primary-brand: #0494f4;
+}
+
+html.dark,
+html.dark body {
+  background-color: #202124 !important;
+  color: #e8eaed !important;
+}
+
+html.light,
+html.light body {
+  background-color: #ffffff !important;
+  color: #202124 !important;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  will-change: auto;
+  font-family: 'Plus Jakarta Sans', ui-sans-serif, system-ui, -apple-system, sans-serif;
+}
+
+h1,h2,h3 {
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+/* scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: #dadce0;
+  border-radius: 999px;
+}
+.dark ::-webkit-scrollbar-thumb {
+  background: #3c4043;
+}
