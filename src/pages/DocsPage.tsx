@@ -1,4 +1,5 @@
 import React from 'react';
+import { Breadcrumbs } from '../components/Breadcrumbs';
 import {
   Rocket,
   Layers,
@@ -68,6 +69,7 @@ const grouped = docs.reduce((acc, d) => {
 export const DocsPage: React.FC = () => {
   return (
     <div className="max-w-[1200px] mx-auto px-4 sm:px-6 py-8 sm:py-10 space-y-8">
+      <Breadcrumbs items={[{ name: 'Docs', path: '/docs' }]} />
       <div className="space-y-3 max-w-3xl">
         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#0494f4]/10 border border-[#0494f4]/20 text-[#0494f4] text-xs font-bold uppercase tracking-wider">
           <BookOpen className="w-3.5 h-3.5" /> Developer Documentation

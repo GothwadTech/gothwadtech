@@ -2,9 +2,10 @@ import React, { useMemo, useState } from 'react';
 import { ArrowUpRight, Github, Search, ExternalLink, Fingerprint, Mail, HardDrive, Video } from 'lucide-react';
 import { ECOSYSTEM_APPS, CATEGORIES } from '../data/ecosystem';
 import type { CategoryId } from '../data/ecosystem';
+import { Breadcrumbs } from '../components/Breadcrumbs';
 import { COMPANY_INFO } from '../data/companyData';
 
-export const EcosystemPage: React.FC = () => {
+export const EcosystemPage: React.FC<{ onNavigate?: (p: string) => void }> = () => {
   const [category, setCategory] = useState<CategoryId>('all');
   const [query, setQuery] = useState('');
 
@@ -26,6 +27,7 @@ export const EcosystemPage: React.FC = () => {
 
   return (
     <div className="max-w-[1200px] mx-auto px-4 sm:px-6 py-8 sm:py-10">
+      <Breadcrumbs items={[{ name: 'Ecosystem', path: '/ecosystem' }]} />
       <div className="space-y-2 max-w-3xl mx-auto text-center">
         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#0494f4]/10 border border-[#0494f4]/20 text-[#0494f4] text-xs font-bold uppercase tracking-wider">
           Ecosystem Directory

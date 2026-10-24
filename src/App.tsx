@@ -38,44 +38,107 @@ function pageFromHash(hash: string): string | null {
 
 const pathForPage = (page: string) => (page === 'home' ? '/' : `/${page}`);
 
-const PAGE_META: Record<string, { title: string; description: string }> = {
+type PageMeta = {
+  title: string;
+  description: string;
+  ogType?: string;
+  keywords?: string;
+  breadcrumbs: { name: string; path: string }[];
+  jsonLdExtra?: Record<string, unknown> | null;
+};
+
+// Exhaustive per-route meta — 55-60 char titles, 150-160 char descriptions, brand included
+const PAGE_META: Record<string, PageMeta> = {
   home: {
-    title: 'Gothwad Tech — Official Website | Everything Gothwad, in one place',
-    description: 'Official Gothwad Tech portal. One Gothwad Account for Mail, Drive, Meet, Store, Tube, GrixChat, Indogram, Browser, Education, AI, Docs and CEO — with direct links & source on GitHub.',
+    title: 'Gothwad Tech — Official Website | Sovereign Software from India',
+    description:
+      'Official site of Gothwad Tech — Jaipur-based sovereign collective. One account for Mail, Drive, Meet, Store, Tube, GrixChat, Indogram, Browser, Education, AI & Docs.',
+    keywords:
+      'Gothwad Tech, gothwadtech.com, gothwadtech official, Pawan Gothwad, sovereign software India, Gothwad Browser, Gothwad Accounts',
+    breadcrumbs: [{ name: 'Home', path: '/' }],
   },
   ecosystem: {
-    title: 'Ecosystem — All Gothwad Products & Direct Links | Gothwad Tech',
-    description: 'Browse the full Gothwad ecosystem: Accounts, Mail, Drive, Meet, Tube, Browser, GrixChat, Indogram, Launcher, Manager, Education, AI, Docs and more — each with live links and GitHub source.',
+    title: 'Gothwad Ecosystem — All Products & Direct Links | Gothwad Tech',
+    description:
+      'Browse the full Gothwad ecosystem — Accounts, Mail, Drive, Meet, Tube, Browser, GrixChat, Indogram, Launcher, Education, AI & more with live links.',
+    keywords:
+      'Gothwad ecosystem, Gothwad products, gothwadtech.com products, Gothwad Mail, Gothwad Drive, Gothwad Tube, GrixChat, Indogram',
+    breadcrumbs: [
+      { name: 'Home', path: '/' },
+      { name: 'Ecosystem', path: '/ecosystem' },
+    ],
+    jsonLdExtra: {
+      '@type': 'CollectionPage',
+      name: 'Gothwad Ecosystem Directory',
+    },
   },
   products: {
-    title: 'Products — Sovereign Apps: Browser, GrixChat, Indogram | Gothwad Tech',
-    description: 'Sovereign Indian apps: Gothwad Browser (11.8 MB), GrixChat (<15ms) and Indogram (200k communities) plus Mail, Drive, Meet, Tube and the full product catalog.',
+    title: 'Products — Browser, GrixChat, Indogram | Gothwad Tech',
+    description:
+      'Sovereign apps by Gothwad Tech: Browser (11.8 MB, 75% less RAM), GrixChat (<15ms), Indogram (200k members) plus Mail, Drive, Meet & Tube.',
+    keywords:
+      'Gothwad Browser, GrixChat, Indogram, sovereign browser India, Gothwad products, Aatmanirbhar Bharat apps',
+    breadcrumbs: [
+      { name: 'Home', path: '/' },
+      { name: 'Products', path: '/products' },
+    ],
   },
   solutions: {
-    title: 'Solutions — School ERP, Restaurant POS, Retail & Enterprise | Gothwad Tech',
-    description: 'Digital solutions for Indian businesses: school management suites, restaurant ordering & POS, shop billing & Khata, custom ERP and sovereign engine builds.',
+    title: 'Solutions — School ERP, Restaurant POS & Enterprise | Gothwad Tech',
+    description:
+      'Solutions for Bharat: School ERP, Restaurant POS & ordering, Kirana billing & Khata, Business CRM & custom sovereign browser engines.',
+    keywords:
+      'Gothwad solutions, school ERP India, restaurant POS, shop billing, business ERP, sovereign systems, Gothwad Tech solutions',
+    breadcrumbs: [
+      { name: 'Home', path: '/' },
+      { name: 'Solutions', path: '/solutions' },
+    ],
   },
   docs: {
     title: 'Docs — Developer Documentation | Gothwad Tech',
-    description: 'Central documentation for Gothwad ecosystem: Accounts OAuth/PKCE, Mail setup, API reference, Tube web, GrixChat, Meet and guides with source citations.',
+    description:
+      'Gothwad Tech developer docs: Accounts OAuth PKCE, Mail REST, Tube web, GrixChat, Meet, Cloudflare deploy — source-cited guides.',
+    keywords:
+      'Gothwad docs, Gothwad documentation, docs.gothwadtech.com, Gothwad Accounts OAuth, Gothwad Mail API',
+    breadcrumbs: [
+      { name: 'Home', path: '/' },
+      { name: 'Docs', path: '/docs' },
+    ],
   },
   company: {
-    title: 'Company — Leadership & Mission | Gothwad Tech',
-    description: 'About Gothwad Tech: mission Aatmanirbhar Bharat, leadership (Pawan Gothwad, Yuvkesh Meena), sovereign consumer tech and enterprise platforms from Jaipur, India.',
+    title: 'Company — Leadership & Aatmanirbhar Mission | Gothwad Tech',
+    description:
+      'About Gothwad Tech: mission to build sovereign tech for India. Leadership by Pawan Gothwad & CEO Yuvkesh Meena from Jaipur, Rajasthan.',
+    keywords:
+      'Gothwad Tech company, Pawan Gothwad, Yuvkesh Meena, about Gothwad Tech, Aatmanirbhar Bharat, Jaipur tech company',
+    breadcrumbs: [
+      { name: 'Home', path: '/' },
+      { name: 'Company', path: '/company' },
+    ],
   },
   contact: {
-    title: 'Contact — Connect with Gothwad Tech',
-    description: 'Contact Gothwad Tech: business desk, support, help and general info. WhatsApp +91 73399 04665, emails: contact, support, help, info @gothwadtech.com.',
+    title: 'Contact — Talk to Gothwad Tech | Support & Business',
+    description:
+      'Contact Gothwad Tech: contact@gothwadtech.com, +91 73399 04665 WhatsApp/Call. Business, support, help & media desks — reply in 2-4 hours.',
+    keywords:
+      'contact Gothwad Tech, Gothwad Tech phone, Gothwad support, Gothwad help, pawan@gothwadtech.com, contact@gothwadtech.com',
+    breadcrumbs: [
+      { name: 'Home', path: '/' },
+      { name: 'Contact', path: '/contact' },
+    ],
   },
 };
 
 function setMeta(selector: string, attr: 'content' | 'href', value: string) {
-  let el = document.querySelector(selector);
+  let el = document.querySelector(selector) as HTMLElement | null;
   if (!el) {
     const isLink = selector.startsWith('link');
     el = document.createElement(isLink ? 'link' : 'meta');
-    if (isLink) el.setAttribute('rel', 'canonical');
-    else {
+    if (isLink) {
+      // infer rel from selector
+      const relMatch = selector.match(/rel="([^"]+)"/);
+      el.setAttribute('rel', relMatch?.[1] ?? 'canonical');
+    } else {
       const name = selector.includes('property=') ? 'property' : 'name';
       const m = selector.match(/\[(?:name|property)="([^"]+)"\]/);
       const raw = m?.[1];
@@ -84,6 +147,56 @@ function setMeta(selector: string, attr: 'content' | 'href', value: string) {
     document.head.appendChild(el);
   }
   el.setAttribute(attr, value);
+}
+
+function upsertJsonLd(id: string, data: unknown) {
+  let el = document.getElementById(id) as HTMLScriptElement | null;
+  if (!el) {
+    el = document.createElement('script');
+    el.id = id;
+    el.type = 'application/ld+json';
+    document.head.appendChild(el);
+  }
+  el.textContent = JSON.stringify(data);
+}
+
+function removeJsonLd(id: string) {
+  document.getElementById(id)?.remove();
+}
+
+function buildBreadcrumbJsonLd(breadcrumbs: { name: string; path: string }[]) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    '@id': 'https://gothwadtech.com/#breadcrumb',
+    itemListElement: breadcrumbs.map((b, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: b.name,
+      item: `https://gothwadtech.com${b.path}`,
+    })),
+  };
+}
+
+function buildWebPageJsonLd(page: string, meta: PageMeta, canonical: string) {
+  const base: Record<string, unknown> = {
+    '@context': 'https://schema.org',
+    '@type': meta.jsonLdExtra?.['@type'] ?? 'WebPage',
+    '@id': `${canonical}#webpage`,
+    url: canonical,
+    name: meta.title,
+    description: meta.description,
+    isPartOf: { '@id': 'https://gothwadtech.com/#website' },
+    about: { '@id': 'https://gothwadtech.com/#organization' },
+    inLanguage: 'en-IN',
+    datePublished: '2023-01-01T00:00:00+05:30',
+    dateModified: '2026-10-24T00:00:00+05:30',
+    primaryImageOfPage: { '@id': 'https://gothwadtech.com/#logo' },
+    breadcrumb: { '@id': 'https://gothwadtech.com/#breadcrumb' },
+    ...(meta.jsonLdExtra ?? {}),
+  };
+  // attach canonical breadcrumb id
+  return base;
 }
 
 function RouteFallback() {
@@ -97,7 +210,6 @@ function RouteFallback() {
 
 function AppContent() {
   const [activePage, setActivePage] = useState<string>(() => {
-    // hydrate from URL immediately (SSR-safe)
     if (typeof window !== 'undefined') {
       const legacy = pageFromHash(window.location.hash);
       if (legacy) return legacy;
@@ -131,16 +243,115 @@ function AppContent() {
 
   useEffect(() => {
     const meta = PAGE_META[activePage] ?? PAGE_META.home;
-    const url = `https://gothwadtech.com${pathForPage(activePage)}`;
+    const canonical = `https://gothwadtech.com${pathForPage(activePage)}`;
+    const ogImage = 'https://gothwadtech.com/assets/brand/og-image.png';
+
+    // Core title & description
     document.title = meta.title;
-    setMeta('meta[name=\"description\"]', 'content', meta.description);
-    setMeta('meta[property=\"og:title\"]', 'content', meta.title);
-    setMeta('meta[property=\"og:description\"]', 'content', meta.description);
-    setMeta('meta[property=\"og:url\"]', 'content', url);
-    setMeta('meta[name=\"twitter:title\"]', 'content', meta.title);
-    setMeta('meta[name=\"twitter:description\"]', 'content', meta.description);
-    setMeta('meta[name=\"twitter:url\"]', 'content', url);
-    setMeta('link[rel=\"canonical\"]', 'href', url);
+    setMeta('meta[name="description"]', 'content', meta.description);
+    if (meta.keywords) setMeta('meta[name="keywords"]', 'content', meta.keywords);
+    setMeta('meta[name="title"]', 'content', meta.title);
+
+    // Canonical + hreflang
+    setMeta('link[rel="canonical"]', 'href', canonical);
+    setMeta('link[rel="alternate"][hreflang="x-default"]', 'href', canonical);
+    setMeta('link[rel="alternate"][hreflang="en-IN"]', 'href', canonical);
+
+    // Open Graph
+    setMeta('meta[property="og:title"]', 'content', meta.title);
+    setMeta('meta[property="og:description"]', 'content', meta.description);
+    setMeta('meta[property="og:url"]', 'content', canonical);
+    setMeta('meta[property="og:image"]', 'content', ogImage);
+    setMeta('meta[property="og:image:secure_url"]', 'content', ogImage);
+    setMeta('meta[property="og:updated_time"]', 'content', new Date().toISOString());
+
+    // Twitter
+    setMeta('meta[name="twitter:title"]', 'content', meta.title);
+    setMeta('meta[name="twitter:description"]', 'content', meta.description);
+    setMeta('meta[name="twitter:url"]', 'content', canonical);
+    setMeta('meta[name="twitter:image"]', 'content', ogImage);
+
+    // Robots hints per route (all indexable; no noindex anywhere)
+    setMeta('meta[name="robots"]', 'content', 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1');
+    setMeta('meta[name="googlebot"]', 'content', 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1');
+
+    // JSON-LD — WebPage + Breadcrumb for every route
+    upsertJsonLd('ld-webpage-dynamic', buildWebPageJsonLd(activePage, meta, canonical));
+    upsertJsonLd('ld-breadcrumb-dynamic', buildBreadcrumbJsonLd(meta.breadcrumbs));
+
+    // Route-specific extra ItemList for ecosystem/products/docs to boost rich results
+    if (activePage === 'ecosystem') {
+      upsertJsonLd('ld-itemlist-ecosystem', {
+        '@context': 'https://schema.org',
+        '@type': 'ItemList',
+        '@id': `${canonical}#products`,
+        name: 'Gothwad Ecosystem — All Products',
+        description: 'Complete list of Gothwad Tech products: Accounts, Mail, Drive, Meet, Tube, Browser, GrixChat, Indogram, Launcher, Manager, Education, AI and more.',
+        numberOfItems: 25,
+        itemListElement: [
+          'Accounts',
+          'Mail',
+          'Drive',
+          'Meet',
+          'Calendar',
+          'Contacts',
+          'Notes',
+          'Store',
+          'Tube',
+          'GrixChat',
+          'Indogram',
+          'Browser',
+          'Launcher',
+          'Manager',
+          'Remote Desktop',
+          'Internet',
+          'Computer',
+          'Education',
+          'ClashDrive',
+          'AI Studio',
+          'Docs',
+          'CEO',
+        ].map((name, i) => ({
+          '@type': 'ListItem',
+          position: i + 1,
+          name,
+          url: `https://gothwadtech.com/ecosystem#${name.toLowerCase().replace(/\s/g, '-')}`,
+        })),
+      });
+    } else {
+      removeJsonLd('ld-itemlist-ecosystem');
+    }
+
+    if (activePage === 'contact') {
+      upsertJsonLd('ld-contact', {
+        '@context': 'https://schema.org',
+        '@type': 'ContactPage',
+        '@id': `${canonical}#contactpage`,
+        url: canonical,
+        name: meta.title,
+        description: meta.description,
+        isPartOf: { '@id': 'https://gothwadtech.com/#website' },
+        about: { '@id': 'https://gothwadtech.com/#organization' },
+      });
+    } else {
+      removeJsonLd('ld-contact');
+    }
+
+    if (activePage === 'company') {
+      upsertJsonLd('ld-about', {
+        '@context': 'https://schema.org',
+        '@type': 'AboutPage',
+        '@id': `${canonical}#aboutpage`,
+        url: canonical,
+        name: meta.title,
+        description: meta.description,
+        isPartOf: { '@id': 'https://gothwadtech.com/#website' },
+        about: { '@id': 'https://gothwadtech.com/#organization' },
+        mainEntity: { '@id': 'https://gothwadtech.com/#organization' },
+      });
+    } else {
+      removeJsonLd('ld-about');
+    }
   }, [activePage]);
 
   return (

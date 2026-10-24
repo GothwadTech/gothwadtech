@@ -1,4 +1,5 @@
 import React from 'react';
+import { Breadcrumbs } from '../components/Breadcrumbs';
 import { Github, Linkedin, Mail, Award, MapPin, Calendar, Building2, Users, ExternalLink, ArrowRight } from 'lucide-react';
 
 const leadership = [
@@ -59,6 +60,7 @@ const values = [
 export const CompanyPage: React.FC<{ onNavigate: (p: string) => void }> = ({ onNavigate }) => {
   return (
     <div className="max-w-[1200px] mx-auto px-4 sm:px-6 py-8 sm:py-10 space-y-10">
+      <Breadcrumbs items={[{ name: 'Company', path: '/company' }]} onNavigate={onNavigate} />
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
         <div className="space-y-4">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#0494f4]/10 border border-[#0494f4]/20 text-[#0494f4] text-xs font-bold uppercase tracking-wider">

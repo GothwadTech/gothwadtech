@@ -1,25 +1,29 @@
-# Cloudflare Pages — SPA fallback
-#
-# Required because the site uses real paths (/products, /contact, ...)
-# rather than hash URLs. Cloudflare Pages serves static files and 404s
-# anything it cannot match, so without this rule a hard refresh or a
-# directly opened deep link 404s -- only / would work.
-#
-# Static assets are matched and served before this rule, so /favicon.ico,
-# /manifest.json, /sitemap.xml and /assets/* keep their real content
-# instead of falling through to index.html.
-#
-# NOTE for a future move to Cloudflare Workers:
-# Workers does NOT use this file for the SPA fallback. Configure it in
-# wrangler.jsonc instead:
-#
-#     "assets": {
-#       "directory": "./dist",
-#       "not_found_handling": "single-page-application"
-#     }
-#
-# If Worker code is added alongside the assets, you also need
-# "binding": "ASSETS" and an env.ASSETS.fetch(request) fallback in the
-# Worker for unmatched paths.
+# ============================================================
+# Gothwad Tech — Cloudflare Pages redirects & SEO canonical
+# Primary domain is https://gothwadtech.com (non-www).
+# We 301 redirect www → apex for canonical consistency (fixes Google
+# showing www.gothwadtech.com instead of gothwadtech.com).
+# Order matters: specific redirects first, SPA fallback last.
+# ============================================================
 
+# 1) Enforce HTTPS + non-www canonical (SEO: stops www duplicate index)
+https://www.gothwadtech.com/* https://gothwadtech.com/:splat 301!
+http://www.gothwadtech.com/* https://gothwadtech.com/:splat 301!
+http://gothwadtech.com/* https://gothwadtech.com/:splat 301!
+
+# 2) Legacy path aliases (keep old links alive, pass link equity)
+#    These used to be hash links — now they are real paths.
+/about      /company  301!
+/portfolio  /ecosystem 301!
+/browser    /products 301!
+/leadership /company 301!
+/legacy     /ecosystem 301!
+
+# 3) www subdomain direct (fallback if protocol not matched above)
+www.gothwadtech.com/* https://gothwadtech.com/:splat 301!
+
+# 4) SPA fallback — every unmatched path serves index.html so deep links
+#    and hard-refresh on /ecosystem, /products etc. never 404.
+#    Cloudflare Pages serves real assets first, so /favicon.ico,
+#    /assets/*, /manifest.json etc. bypass this rule.
 /*    /index.html   200

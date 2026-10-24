@@ -1,0 +1,61 @@
+# Gothwad Tech — llms.txt
+# https://gothwadtech.com/llms.txt
+# Machine-readable overview for LLM & AI crawlers.
+
+> Gothwad Tech is India's sovereign software collective from Jaipur, Rajasthan (founded 2023, founder Pawan Gothwad, CEO Yuvkesh Meena).
+> One Gothwad Account powers a unified ecosystem: Mail, Drive, Meet, Store, Tube, GrixChat, Indogram, Browser, Education, AI Studio, Remote Desktop, Docs and more.
+> All products are documented and mostly open-source at https://github.com/GothwadTech.
+
+## Official domains (canonical is https://gothwadtech.com — non-www)
+- Main: https://gothwadtech.com
+- Accounts (auth): https://accounts.gothwadtech.com
+- Mail: https://mail.gothwadtech.com
+- Drive: https://drive.gothwadtech.com
+- Meet: https://meet.gothwadtech.com
+- Calendar: https://calender.gothwadtech.com (note spelling in DNS)
+- Contacts: https://contacts.gothwadtech.com
+- Notes: https://notes.gothwadtech.com
+- Store: https://store.gothwadtech.com
+- Tube: https://tube.gothwadtech.com
+- GrixChat: https://grixchat.gothwadtech.com
+- Indogram: https://indogram.gothwadtech.com
+- Browser: https://browser.gothwadtech.com
+- Education: https://education.gothwadtech.com
+- AI Studio: https://ai.gothwadtech.com
+- Remote Desktop: https://remotedesk.gothwadtech.com
+- Docs: https://docs.gothwadtech.com
+- CEO: https://ceo.gothwadtech.com
+
+## Site sections
+- / : Home — hero, quick-access tiles, search + filter shortcuts
+- /ecosystem : Directory of all 25+ products with direct subdomain links + GitHub source
+- /products : Sovereign flagships (Browser 11.8MB, GrixChat <15ms, Indogram 200k members)
+- /solutions : School ERP, restaurant POS, kirana billing/Khata, enterprise ERP, sovereign engines
+- /docs : Developer docs index (Accounts OAuth PKCE, Mail setup & REST, Tube, Meet, etc.)
+- /company : About, mission Aatmanirbhar Bharat, leadership
+- /contact : Business, support, help, info inboxes + founder contacts + WhatsApp
+
+## Structured data
+- Organization JSON-LD at https://gothwadtech.com/#organization
+- WebSite with SearchAction (query: /ecosystem?q={search_term_string})
+- BreadcrumbList per route
+- ItemList for ecosystem products
+
+## Docs & source
+- Docs site: https://docs.gothwadtech.com
+- Docs repo: https://github.com/GothwadTech/docs (source-cited, SOURCES.md)
+- Main org: https://github.com/GothwadTech
+- This website repo: https://github.com/GothwadTech/website
+
+## Brand & contact
+- Logo: https://gothwadtech.com/assets/brand/logo.png
+- OG image: https://gothwadtech.com/assets/brand/og-image.png
+- Contact: contact@gothwadtech.com, pawan@gothwadtech.com, +91 73399 04665
+- Address: Jaipur, Rajasthan, India
+
+## Markdown for AI
+See also:
+- https://gothwadtech.com/sitemap.xml
+- https://gothwadtech.com/robots.txt
+- https://gothwadtech.com/humans.txt
+- https://gothwadtech.com/manifest.json
