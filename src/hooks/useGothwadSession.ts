@@ -1,25 +1,33 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import { fetchGothwadSession, getCurrentAuthuser, type FetchMeResult } from "../lib/gothwadSso";
-import { preloadGothwadAccountMenu } from "../lib/accountMenuWidget";
 
+/**
+ * Resolves the Gothwad Account session for the current page.
+ * Starts as anonymous while loading — the navbar shows a skeleton until it settles.
+ */
 export function useGothwadSession() {
   const [data, setData] = useState<FetchMeResult | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const refresh = useCallback(async () => {
-    const authuser = getCurrentAuthuser();
-    setLoading(true);
-    const res = await fetchGothwadSession(authuser);
-    setData(res);
-    setLoading(false);
-    if (res.authenticated) preloadGothwadAccountMenu();
+  useEffect(() => {
+    let cancelled = false;
+
+    void (async () => {
+      const result = await fetchGothwadSession(getCurrentAuthuser());
+      if (cancelled) return;
+      setData(result);
+      setLoading(false);
+    })();
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
-  useEffect(() => {
-    void refresh();
-    // preload widget even before auth resolves, so first click is 0ms
-    preloadGothwadAccountMenu();
-  }, [refresh]);
-
-  return { data, loading, refresh, authuser: data?.authuser ?? getCurrentAuthuser(), authenticated: data?.authenticated ?? false };
+  return {
+    data,
+    loading,
+    authuser: data?.authuser ?? getCurrentAuthuser(),
+    authenticated: data?.authenticated ?? false,
+  };
 }

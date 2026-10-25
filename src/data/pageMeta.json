@@ -1,0 +1,65 @@
+{
+  "home": {
+    "path": "/",
+    "label": "Home",
+    "title": "Gothwad Tech — Official Website | Sovereign Software",
+    "description": "Official website of Gothwad Tech, Jaipur — an Indian software collective. One Gothwad Account for Mail, Drive, Meet, Tube, GrixChat, Indogram, Browser, AI and Docs.",
+    "keywords": "Gothwad Tech, gothwadtech.com, Gothwad Accounts, Gothwad Mail, Gothwad Browser, sovereign software India, Aatmanirbhar Bharat",
+    "heading": "Gothwad Tech",
+    "lede": "Everything Gothwad, in one place — one account for Mail, Drive, Meet, Tube, GrixChat, Indogram, Browser, Education, AI Studio and Docs."
+  },
+  "ecosystem": {
+    "path": "/ecosystem",
+    "label": "Ecosystem",
+    "title": "Gothwad Ecosystem — All Products & Direct Links",
+    "description": "Browse every Gothwad product — Accounts, Mail, Drive, Meet, Tube, Browser, GrixChat, Indogram, Education, AI Studio and more, with live links and source code.",
+    "keywords": "Gothwad ecosystem, Gothwad products, Gothwad Mail, Gothwad Drive, Gothwad Tube, GrixChat, Indogram, Gothwad Launcher",
+    "heading": "All Gothwad products — direct links",
+    "lede": "Every Gothwad product in one directory, with its live subdomain, a short description and a link to the source repository."
+  },
+  "products": {
+    "path": "/products",
+    "label": "Products",
+    "title": "Products — Browser, GrixChat & Indogram | Gothwad Tech",
+    "description": "Sovereign apps by Gothwad Tech: Gothwad Browser, GrixChat and Indogram, plus Mail, Drive, Meet and Tube. Open any product in one click.",
+    "keywords": "Gothwad Browser, GrixChat, Indogram, sovereign browser India, Gothwad products, Aatmanirbhar Bharat apps",
+    "heading": "Sovereign apps",
+    "lede": "The Gothwad flagships — Browser, GrixChat and Indogram — built and operated from India."
+  },
+  "solutions": {
+    "path": "/solutions",
+    "label": "Solutions",
+    "title": "Solutions — School ERP, POS & Billing | Gothwad Tech",
+    "description": "Practical software for Indian businesses: school ERP, restaurant POS, kirana billing and Khata, and custom enterprise systems built by Gothwad Tech.",
+    "keywords": "school ERP India, restaurant POS, kirana billing software, business ERP, Gothwad solutions",
+    "heading": "Solutions",
+    "lede": "Tools for schools, restaurants, shops and businesses — built and supported from Jaipur."
+  },
+  "docs": {
+    "path": "/docs",
+    "label": "Docs",
+    "title": "Docs — Developer Documentation | Gothwad Tech",
+    "description": "Gothwad developer documentation: Accounts OAuth 2.0 PKCE, Mail REST API, Tube, GrixChat, Meet and Cloudflare Pages deployment guides.",
+    "keywords": "Gothwad docs, Gothwad documentation, Gothwad Accounts OAuth, Gothwad Mail API, Cloudflare Pages",
+    "heading": "Docs",
+    "lede": "Source-based documentation for the Gothwad ecosystem — authentication, APIs and deployment."
+  },
+  "company": {
+    "path": "/company",
+    "label": "Company",
+    "title": "Company — Mission & Leadership | Gothwad Tech",
+    "description": "Gothwad Tech is an Indian software collective from Jaipur, Rajasthan. Learn about our mission, our leadership and the products we build for Bharat.",
+    "keywords": "Gothwad Tech company, Pawan Gothwad, Yuvkesh Meena, about Gothwad Tech, Jaipur software company",
+    "heading": "Gothwad Tech",
+    "lede": "An Indian software collective building sovereign consumer apps and business systems from Jaipur, Rajasthan."
+  },
+  "contact": {
+    "path": "/contact",
+    "label": "Contact",
+    "title": "Contact — Support & Business | Gothwad Tech",
+    "description": "Contact Gothwad Tech for support, sales or media. Email contact@gothwadtech.com or call +91 73399 04665 — we usually reply within a day.",
+    "keywords": "contact Gothwad Tech, Gothwad support, Gothwad help, contact@gothwadtech.com",
+    "heading": "Contact",
+    "lede": "Business, support and help inboxes, plus WhatsApp and phone."
+  }
+}

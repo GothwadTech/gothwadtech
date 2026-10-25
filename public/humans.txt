@@ -1,28 +1,26 @@
 /* the humans behind Gothwad Tech */
-Site: https://gothwadtech.com — Official website of Gothwad Tech
+Site: https://gothwadtech.com — official website of Gothwad Tech
 Location: Jaipur, Rajasthan, India
+Founded: 2023
 
 /* team */
-Founder & Product Architect: Pawan Gothwad — pawan@gothwadtech.com — https://github.com/GothwadTech
-CEO: Yuvkesh Meena — ceo.gothwadtech.com — Dausa, Rajasthan, India
+Founder & Chief Visionary Officer: Pawan Gothwad — pawan@gothwadtech.com
+Chief Executive Officer: Yuvkesh Meena — yuvkesh@gothwadtech.com — Dausa, Rajasthan, India
 Co-Founder & CTO: Vishnu Meena — vishnu@gothwadtech.com
-CEO: Nishant — nishant@gothwadtech.com
 
 /* contact */
 Contact: contact@gothwadtech.com
 Support: support@gothwadtech.com
 Help: help@gothwadtech.com
+Security: security@gothwadtech.com
 Phone: +91 73399 04665
 WhatsApp: https://wa.me/917339904665
 
 /* technology */
-Stack: Vite, React 19, TypeScript, Tailwind CSS, Cloudflare Pages
-Design: Gothwad Design System — #0494f4 brand, zinc, light/dark
-
-/* thanks */
-Thanks to Aatmanirbhar Bharat — sovereign tech for India.
+Stack: Vite, React 19, TypeScript, Tailwind CSS 4, Cloudflare Pages
+Design: Gothwad design system — #0494f4 brand, zinc neutrals, light/dark
 
 /* site */
 Docs: https://docs.gothwadtech.com
 GitHub: https://github.com/GothwadTech
-CEO: https://ceo.gothwadtech.com
+Source of this site: https://github.com/GothwadTech/gothwadtech

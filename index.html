@@ -1,13 +1,11 @@
 <!doctype html>
 <html lang="en-IN" dir="ltr" class="scroll-smooth">
   <head>
-    <!-- =============================================================
-         Gothwad Tech — Official Website
-         https://gothwadtech.com
-         Brand-first SEO, India sovereign tech collective.
-         Primary domain is https://gothwadtech.com (non-www).
-         www.gothwadtech.com 301 → gothwadtech.com via _redirects.
-         ============================================================= -->
+    <!--
+      Gothwad Tech — official website
+      https://gothwadtech.com
+      Canonical host is the apex (non-www); see README for the Cloudflare Redirect Rule.
+    -->
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=5.0" />
@@ -19,12 +17,21 @@
     <meta name="format-detection" content="telephone=yes" />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
 
-    <!-- Primary SEO -->
-    <title>Gothwad Tech — Official Website | Sovereign Software, Browser & AI from India</title>
-    <meta name="title" content="Gothwad Tech — Official Website | Sovereign Software, Browser & AI from India" />
-    <meta name="description" content="Official website of Gothwad Tech — India's sovereign software collective from Jaipur, Rajasthan. One Gothwad Account for Mail, Drive, Meet, Store, Tube, GrixChat, Indogram, Browser, Education, AI Studio and Docs." />
-    <meta name="keywords" content="Gothwad Tech, Gothwad Tech official website, Pawan Gothwad, Yuvkesh Meena, Gothwad Browser, Gothwad Accounts, Gothwad Mail, Gothwad Drive, Gothwad Meet, Gothwad Store, Gothwad Tube, GrixChat, Indogram, ClashDrive, Gothwad Education, Gothwad AI Studio, Gothwad Launcher, Gothwad Manager, sovereign software India, Aatmanirbhar Bharat tech, made in India browser, Indian tech company Jaipur, sovereign cloud messenger, Indian software collective" />
-    <meta name="author" content="Gothwad Tech — Pawan Gothwad, Yuvkesh Meena" />
+    <!-- Theme must be resolved before first paint (external file keeps CSP inline-script-free) -->
+    <script src="/theme-init.js"></script>
+
+    <!-- Primary SEO (per-route values are applied by the app; these are the home defaults) -->
+    <title>Gothwad Tech — Official Website | Sovereign Software</title>
+    <meta name="title" content="Gothwad Tech — Official Website | Sovereign Software" />
+    <meta
+      name="description"
+      content="Official website of Gothwad Tech, Jaipur — an Indian software collective. One Gothwad Account for Mail, Drive, Meet, Tube, GrixChat, Indogram, Browser, AI and Docs."
+    />
+    <meta
+      name="keywords"
+      content="Gothwad Tech, gothwadtech.com, Gothwad Accounts, Gothwad Mail, Gothwad Drive, Gothwad Browser, GrixChat, Indogram, sovereign software India, Aatmanirbhar Bharat"
+    />
+    <meta name="author" content="Gothwad Tech Private Limited" />
     <meta name="publisher" content="Gothwad Tech Private Limited" />
     <meta name="copyright" content="© 2026 Gothwad Tech Private Limited" />
     <meta name="application-name" content="Gothwad Tech" />
@@ -33,238 +40,215 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="HandheldFriendly" content="True" />
-    <meta name="MobileOptimized" content="320" />
-    <meta name="rating" content="general" />
-    <meta name="distribution" content="global" />
-    <meta name="coverage" content="Worldwide" />
-    <meta name="target" content="all" />
-    <meta name="audience" content="all" />
     <meta name="language" content="English" />
-    <meta name="geo.region" content="IN-RJ" />
-    <meta name="geo.placename" content="Jaipur, Rajasthan, India" />
-    <meta name="geo.position" content="26.9124;75.7873" />
-    <meta name="ICBM" content="26.9124, 75.7873" />
 
-    <!-- Robots — maximize crawl, snippet & image preview for rich results -->
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     <meta name="bingbot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
-    <meta name="google" content="nositelinkssearchbox" />
-    <!-- Verification placeholders — replace with real codes when available -->
-    <!-- <meta name="google-site-verification" content="REPLACE_WITH_GOOGLE_VERIFICATION_TOKEN" /> -->
-    <!-- <meta name="msvalidate.01" content="REPLACE_WITH_BING_VERIFICATION_TOKEN" /> -->
-    <!-- <meta name="yandex-verification" content="REPLACE_WITH_YANDEX_TOKEN" /> -->
 
-    <!-- Canonical — non-www is primary -->
     <link rel="canonical" href="https://gothwadtech.com/" id="canonical-link" />
     <link rel="alternate" href="https://gothwadtech.com/" hreflang="x-default" />
     <link rel="alternate" href="https://gothwadtech.com/" hreflang="en-IN" />
     <link rel="alternate" href="https://gothwadtech.com/" hreflang="en" />
-    <link rel="alternate" href="https://gothwadtech.com/" hreflang="hi-IN" />
     <link rel="author" href="https://gothwadtech.com/humans.txt" />
     <link rel="sitemap" type="application/xml" title="Sitemap" href="https://gothwadtech.com/sitemap.xml" />
     <link rel="search" type="application/opensearchdescription+xml" title="Gothwad Tech — Search Products" href="/opensearch.xml" />
 
-    <!-- Preconnect / DNS-prefetch for performance -->
+    <!-- Fonts: non-blocking load with a no-JS fallback -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
-    <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Space+Grotesk:wght@500;600;700&display=swap"
+      onload="this.onload=null;this.rel='stylesheet'"
+    />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Space+Grotesk:wght@500;600;700&display=swap"
+      />
+    </noscript>
     <link rel="preload" as="image" href="/assets/brand/logo.png" fetchpriority="high" />
-    <link rel="preload" as="image" href="/assets/brand/og-image.png" />
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
 
-    <!-- Icons — exhaustive set for Google, Apple, Windows, Android -->
+    <!-- Icons -->
     <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" type="image/svg+xml" href="/logo.svg" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png" />
-    <link rel="icon" type="image/png" sizes="192x192" href="/icon-192x192.png" />
-    <link rel="icon" type="image/png" sizes="512x512" href="/icon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/icons/icon-192.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/assets/icons/icon-512.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    <link rel="apple-touch-icon" sizes="152x152" href="/assets/icons/icon-144.png" />
-    <link rel="apple-touch-startup-image" href="/apple-touch-icon.png" />
+    <link rel="apple-touch-icon" sizes="144x144" href="/assets/icons/icon-144.png" />
     <link rel="mask-icon" href="/logo.svg" color="#0494f4" />
     <link rel="manifest" href="/manifest.json" />
     <meta name="msapplication-config" content="/browserconfig.xml" />
 
-    <!-- Open Graph — absolute URLs for Facebook, WhatsApp, LinkedIn -->
+    <!-- Open Graph -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://gothwadtech.com/" />
     <meta property="og:site_name" content="Gothwad Tech" />
-    <meta property="og:title" content="Gothwad Tech — Official Website | Sovereign Software, Browser & AI from India" />
-    <meta property="og:description" content="Everything Gothwad, in one place. One account for Mail, Drive, Meet, Store, Tube, GrixChat, Indogram, Browser, Education, AI and Docs — sovereign tech from Jaipur, India." />
+    <meta property="og:url" content="https://gothwadtech.com/" />
+    <meta property="og:title" content="Gothwad Tech — Official Website | Sovereign Software" />
+    <meta
+      property="og:description"
+      content="Everything Gothwad, in one place. One account for Mail, Drive, Meet, Tube, GrixChat, Indogram, Browser, Education, AI and Docs."
+    />
     <meta property="og:image" content="https://gothwadtech.com/assets/brand/og-image.png" />
     <meta property="og:image:secure_url" content="https://gothwadtech.com/assets/brand/og-image.png" />
     <meta property="og:image:type" content="image/png" />
-    <meta property="og:image:width" content="512" />
-    <meta property="og:image:height" content="512" />
-    <meta property="og:image:alt" content="Gothwad Tech logo — sovereign software collective from India" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Gothwad Tech — sovereign software from India" />
     <meta property="og:locale" content="en_IN" />
-    <meta property="og:locale:alternate" content="en_US" />
-    <meta property="og:locale:alternate" content="hi_IN" />
-    <meta property="og:updated_time" content="2026-10-24T00:00:00+05:30" />
 
-    <!-- Twitter / X Cards -->
+    <!-- Twitter / X -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@gothwadtech" />
     <meta name="twitter:creator" content="@gothwadtech" />
     <meta name="twitter:domain" content="gothwadtech.com" />
     <meta name="twitter:url" content="https://gothwadtech.com/" />
-    <meta name="twitter:title" content="Gothwad Tech — Official Website | Sovereign Software, Browser & AI" />
-    <meta name="twitter:description" content="One Gothwad Account for Mail, Drive, Meet, Tube, GrixChat, Indogram, Browser, Education and AI — sovereign apps from India." />
+    <meta name="twitter:title" content="Gothwad Tech — Official Website | Sovereign Software" />
+    <meta
+      name="twitter:description"
+      content="One Gothwad Account for Mail, Drive, Meet, Tube, GrixChat, Indogram, Browser, Education, AI and Docs."
+    />
     <meta name="twitter:image" content="https://gothwadtech.com/assets/brand/og-image.png" />
-    <meta name="twitter:image:alt" content="Gothwad Tech — sovereign software collective logo" />
-    <meta name="twitter:dnt" content="on" />
+    <meta name="twitter:image:alt" content="Gothwad Tech — sovereign software from India" />
 
-    <!-- Me / Social identity -->
     <link rel="me" href="https://github.com/GothwadTech" />
     <link rel="me" href="https://x.com/gothwadtech" />
 
-    <!-- Structured Data — Site-wide Organization + WebSite (WebPage/Breadcrumb injected per route by JS) -->
+    <!-- Site-wide structured data. Per-route WebPage/Breadcrumb/ItemList are injected by the app. -->
     <script type="application/ld+json" id="ld-organization">
-    {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "@id": "https://gothwadtech.com/#organization",
-      "name": "Gothwad Tech",
-      "alternateName": ["GothwadTech", "Gothwad Tech Private Limited", "Gothwad Technologies Private Limited"],
-      "legalName": "Gothwad Technologies Private Limited",
-      "url": "https://gothwadtech.com",
-      "logo": {
-        "@type": "ImageObject",
-        "@id": "https://gothwadtech.com/#logo",
-        "url": "https://gothwadtech.com/assets/brand/logo.png",
-        "contentUrl": "https://gothwadtech.com/assets/brand/logo.png",
-        "width": 512,
-        "height": 512,
-        "caption": "Gothwad Tech — sovereign software collective logo"
-      },
-      "image": {
-        "@type": "ImageObject",
-        "url": "https://gothwadtech.com/assets/brand/og-image.png",
-        "width": 512,
-        "height": 512
-      },
-      "description": "Gothwad Tech is India's sovereign software collective from Jaipur, Rajasthan — builders of the ultra-light Gothwad Browser, GrixChat messenger, Indogram cloud, and a connected ecosystem (Mail, Drive, Meet, Store, Tube, Education, AI) unified by Gothwad Accounts.",
-      "slogan": "Empowering Aatmanirbhar Bharat in Deep Tech & Software Engineering",
-      "foundingDate": "2023-01-01",
-      "founder": {
-        "@type": "Person",
-        "@id": "https://gothwadtech.com/#founder",
-        "name": "Pawan Gothwad",
-        "jobTitle": "Founder & Chief Visionary Officer",
-        "url": "https://gothwadtech.com/company"
-      },
-      "member": [
-        { "@type": "Person", "name": "Yuvkesh Meena", "jobTitle": "Chief Executive Officer", "url": "https://ceo.gothwadtech.com" },
-        { "@type": "Person", "name": "Vishnu Meena", "jobTitle": "Co-Founder & CTO", "url": "https://gothwadtech.com/company" }
-      ],
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Jaipur",
-        "addressRegion": "Rajasthan",
-        "addressCountry": "IN",
-        "postalCode": "302001"
-      },
-      "areaServed": { "@type": "Country", "name": "India" },
-      "contactPoint": [
-        {
-          "@type": "ContactPoint",
-          "telephone": "+91-73399-04665",
-          "contactType": "customer support",
-          "email": "contact@gothwadtech.com",
-          "availableLanguage": ["en-IN", "en", "hi-IN"],
-          "areaServed": "IN",
-          "contactOption": "TollFree"
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "@id": "https://gothwadtech.com/#organization",
+        "name": "Gothwad Tech",
+        "alternateName": ["GothwadTech", "Gothwad Tech Private Limited", "Gothwad Technologies Private Limited"],
+        "legalName": "Gothwad Tech Private Limited",
+        "url": "https://gothwadtech.com",
+        "logo": {
+          "@type": "ImageObject",
+          "@id": "https://gothwadtech.com/#logo",
+          "url": "https://gothwadtech.com/assets/brand/logo.png",
+          "contentUrl": "https://gothwadtech.com/assets/brand/logo.png",
+          "width": 460,
+          "height": 460,
+          "caption": "Gothwad Tech logo"
         },
-        {
-          "@type": "ContactPoint",
-          "telephone": "+91-73399-04665",
-          "contactType": "sales",
-          "email": "pawan@gothwadtech.com",
-          "availableLanguage": ["en-IN", "en"]
-        }
-      ],
-      "sameAs": [
-        "https://github.com/GothwadTech",
-        "https://x.com/gothwadtech",
-        "https://www.linkedin.com/company/gothwadtech",
-        "https://ceo.gothwadtech.com"
-      ],
-      "knowsAbout": ["Sovereign browsers", "Real-time messaging", "Cloud storage", "OAuth 2.0 PKCE", "Cloudflare Workers", "WebRTC", "React", "Edge computing", "Aatmanirbhar Bharat"],
-      "numberOfEmployees": { "@type": "QuantitativeValue", "value": 12 },
-      "sponsor": { "@type": "Organization", "name": "Aatmanirbhar Bharat Initiative" }
-    }
+        "image": "https://gothwadtech.com/assets/brand/og-image.png",
+        "description": "Gothwad Tech is an Indian software collective building sovereign consumer apps and business systems from Jaipur, Rajasthan.",
+        "foundingDate": "2023",
+        "founder": { "@type": "Person", "name": "Pawan Gothwad", "jobTitle": "Founder", "url": "https://gothwadtech.com/company" },
+        "employee": [
+          { "@type": "Person", "name": "Yuvkesh Meena", "jobTitle": "Chief Executive Officer" },
+          { "@type": "Person", "name": "Vishnu Meena", "jobTitle": "Co-Founder & CTO" }
+        ],
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Jaipur",
+          "addressRegion": "Rajasthan",
+          "addressCountry": "IN",
+          "postalCode": "302001"
+        },
+        "areaServed": { "@type": "Country", "name": "India" },
+        "contactPoint": [
+          {
+            "@type": "ContactPoint",
+            "telephone": "+91-73399-04665",
+            "contactType": "customer support",
+            "email": "support@gothwadtech.com",
+            "availableLanguage": ["en-IN", "en", "hi-IN"],
+            "areaServed": "IN"
+          },
+          {
+            "@type": "ContactPoint",
+            "telephone": "+91-73399-04665",
+            "contactType": "sales",
+            "email": "contact@gothwadtech.com",
+            "availableLanguage": ["en-IN", "en"]
+          }
+        ],
+        "sameAs": [
+          "https://github.com/GothwadTech",
+          "https://x.com/gothwadtech",
+          "https://www.linkedin.com/company/gothwadtech",
+          "https://docs.gothwadtech.com"
+        ],
+        "knowsAbout": [
+          "Web applications",
+          "Android applications",
+          "OAuth 2.0 PKCE",
+          "Cloudflare Workers",
+          "WebRTC",
+          "React",
+          "Edge computing"
+        ]
+      }
     </script>
 
     <script type="application/ld+json" id="ld-website">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebSite",
-      "@id": "https://gothwadtech.com/#website",
-      "url": "https://gothwadtech.com/",
-      "name": "Gothwad Tech — Official Website",
-      "alternateName": ["gothwadtech.com", "GothwadTech Official"],
-      "description": "Official portal of Gothwad Tech — everything Gothwad in one place. Direct links to Mail, Drive, Meet, Store, Tube, GrixChat, Indogram, Browser, Education, AI, Docs and CEO, all powered by Gothwad Accounts.",
-      "publisher": { "@id": "https://gothwadtech.com/#organization" },
-      "inLanguage": "en-IN",
-      "copyrightHolder": { "@id": "https://gothwadtech.com/#organization" },
-      "potentialAction": [
-        {
-          "@type": "SearchAction",
-          "target": {
-            "@type": "EntryPoint",
-            "urlTemplate": "https://gothwadtech.com/ecosystem?q={search_term_string}"
-          },
-          "query-input": "required name=search_term_string",
-          "description": "Search all Gothwad products"
-        }
-      ]
-    }
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "@id": "https://gothwadtech.com/#website",
+        "url": "https://gothwadtech.com/",
+        "name": "Gothwad Tech — Official Website",
+        "alternateName": ["gothwadtech.com", "GothwadTech Official"],
+        "description": "Official portal of Gothwad Tech — direct links to Mail, Drive, Meet, Store, Tube, GrixChat, Indogram, Browser, Education, AI and Docs, all powered by Gothwad Accounts.",
+        "publisher": { "@id": "https://gothwadtech.com/#organization" },
+        "inLanguage": "en-IN",
+        "copyrightHolder": { "@id": "https://gothwadtech.com/#organization" },
+        "potentialAction": [
+          {
+            "@type": "SearchAction",
+            "target": {
+              "@type": "EntryPoint",
+              "urlTemplate": "https://gothwadtech.com/ecosystem?q={search_term_string}"
+            },
+            "query-input": "required name=search_term_string",
+            "description": "Search all Gothwad products"
+          }
+        ]
+      }
     </script>
 
-    <!-- Per-route JSON-LD (WebPage + Breadcrumb + ItemList) will be injected by the app at runtime -->
-    <!-- Fallback static WebPage for crawlers without JS -->
+    <!-- Fallback for crawlers that do not execute JS; the app removes these on mount. -->
     <script type="application/ld+json" id="ld-webpage-fallback">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebPage",
-      "@id": "https://gothwadtech.com/#webpage",
-      "url": "https://gothwadtech.com/",
-      "name": "Gothwad Tech — Official Website | Sovereign Software, Browser & AI from India",
-      "description": "Official website of Gothwad Tech — one account for Mail, Drive, Meet, Store, Tube, GrixChat, Indogram, Browser, Education, AI and Docs.",
-      "isPartOf": { "@id": "https://gothwadtech.com/#website" },
-      "about": { "@id": "https://gothwadtech.com/#organization" },
-      "primaryImageOfPage": { "@id": "https://gothwadtech.com/#logo" },
-      "inLanguage": "en-IN",
-      "datePublished": "2023-01-01T00:00:00+05:30",
-      "dateModified": "2026-10-24T00:00:00+05:30",
-      "breadcrumb": { "@id": "https://gothwadtech.com/#breadcrumb" },
-      "speakable": {
-        "@type": "SpeakableSpecification",
-        "cssSelector": ["h1", "h2", ".hero-title"]
+      {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "@id": "https://gothwadtech.com/#webpage",
+        "url": "https://gothwadtech.com/",
+        "name": "Gothwad Tech — Official Website | Sovereign Software",
+        "description": "Official website of Gothwad Tech — one account for Mail, Drive, Meet, Tube, GrixChat, Indogram, Browser, Education, AI and Docs.",
+        "isPartOf": { "@id": "https://gothwadtech.com/#website" },
+        "about": { "@id": "https://gothwadtech.com/#organization" },
+        "primaryImageOfPage": { "@id": "https://gothwadtech.com/#logo" },
+        "inLanguage": "en-IN",
+        "datePublished": "2023-01-01T00:00:00+05:30",
+        "dateModified": "2026-10-25T00:00:00+05:30",
+        "breadcrumb": { "@id": "https://gothwadtech.com/#breadcrumb" },
+        "speakable": { "@type": "SpeakableSpecification", "cssSelector": ["h1", "h2"] }
       }
-    }
     </script>
 
     <script type="application/ld+json" id="ld-breadcrumb-fallback">
-    {
-      "@context": "https://schema.org",
-      "@type": "BreadcrumbList",
-      "@id": "https://gothwadtech.com/#breadcrumb",
-      "itemListElement": [
-        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://gothwadtech.com/" }
-      ]
-    }
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "@id": "https://gothwadtech.com/#breadcrumb",
+        "itemListElement": [{ "@type": "ListItem", "position": 1, "name": "Home", "item": "https://gothwadtech.com/" }]
+      }
     </script>
   </head>
   <body>
     <noscript>
       <div style="padding:16px;max-width:860px;margin:40px auto;font:14px/1.6 system-ui;color:#202124;background:#fff8e1;border:1px solid #ffcc02;border-radius:12px">
-        <strong>Gothwad Tech</strong> — official website of Gothwad Tech (Jaipur, India).<br/>
+        <strong>Gothwad Tech</strong> — official website of Gothwad Tech (Jaipur, India).<br />
         You are viewing without JavaScript. Core links still work:
         <a href="https://accounts.gothwadtech.com">Accounts</a> ·
         <a href="https://mail.gothwadtech.com">Mail</a> ·
@@ -274,8 +258,7 @@
         <a href="https://grixchat.gothwadtech.com">GrixChat</a> ·
         <a href="https://indogram.gothwadtech.com">Indogram</a> ·
         <a href="https://browser.gothwadtech.com">Browser</a> ·
-        <a href="https://docs.gothwadtech.com">Docs</a> ·
-        <a href="https://ceo.gothwadtech.com">CEO</a>
+        <a href="https://docs.gothwadtech.com">Docs</a>
       </div>
     </noscript>
     <div id="root"></div>

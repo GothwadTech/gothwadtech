@@ -1,5 +1,5 @@
 Contact: mailto:security@gothwadtech.com
 Contact: mailto:contact@gothwadtech.com
-Expires: 2027-10-24T00:00:00+05:30
+Expires: 2027-10-25T00:00:00+05:30
 Preferred-Languages: en, hi
 Canonical: https://gothwadtech.com/.well-known/security.txt

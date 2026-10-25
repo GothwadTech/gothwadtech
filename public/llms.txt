@@ -1,18 +1,18 @@
 # Gothwad Tech — llms.txt
 # https://gothwadtech.com/llms.txt
-# Machine-readable overview for LLM & AI crawlers.
+# Machine-readable overview for LLM and AI crawlers.
 
-> Gothwad Tech is India's sovereign software collective from Jaipur, Rajasthan (founded 2023, founder Pawan Gothwad, CEO Yuvkesh Meena).
-> One Gothwad Account powers a unified ecosystem: Mail, Drive, Meet, Store, Tube, GrixChat, Indogram, Browser, Education, AI Studio, Remote Desktop, Docs and more.
-> All products are documented and mostly open-source at https://github.com/GothwadTech.
+> Gothwad Tech is an Indian software collective based in Jaipur, Rajasthan (founded 2023; founder Pawan Gothwad, CEO Yuvkesh Meena).
+> One Gothwad Account connects Mail, Drive, Meet, Store, Tube, GrixChat, Indogram, Browser, Education, AI Studio, Remote Desktop and Docs.
+> Most products are open source at https://github.com/GothwadTech.
 
-## Official domains (canonical is https://gothwadtech.com — non-www)
+## Official domains (canonical host: https://gothwadtech.com — no www)
 - Main: https://gothwadtech.com
 - Accounts (auth): https://accounts.gothwadtech.com
 - Mail: https://mail.gothwadtech.com
 - Drive: https://drive.gothwadtech.com
 - Meet: https://meet.gothwadtech.com
-- Calendar: https://calender.gothwadtech.com (note spelling in DNS)
+- Calendar: https://calender.gothwadtech.com (DNS spelling is "calender")
 - Contacts: https://contacts.gothwadtech.com
 - Notes: https://notes.gothwadtech.com
 - Store: https://store.gothwadtech.com
@@ -24,38 +24,36 @@
 - AI Studio: https://ai.gothwadtech.com
 - Remote Desktop: https://remotedesk.gothwadtech.com
 - Docs: https://docs.gothwadtech.com
-- CEO: https://ceo.gothwadtech.com
 
 ## Site sections
-- / : Home — hero, quick-access tiles, search + filter shortcuts
-- /ecosystem : Directory of all 25+ products with direct subdomain links + GitHub source
-- /products : Sovereign flagships (Browser 11.8MB, GrixChat <15ms, Indogram 200k members)
-- /solutions : School ERP, restaurant POS, kirana billing/Khata, enterprise ERP, sovereign engines
-- /docs : Developer docs index (Accounts OAuth PKCE, Mail setup & REST, Tube, Meet, etc.)
-- /company : About, mission Aatmanirbhar Bharat, leadership
-- /contact : Business, support, help, info inboxes + founder contacts + WhatsApp
+- / : Home — quick access tiles and product search
+- /ecosystem : Directory of all 26 products with subdomains and source links (supports ?q= and ?category=)
+- /products : Flagships — Gothwad Browser, GrixChat, Indogram
+- /solutions : School ERP, restaurant POS, shop billing and Khata, business CRM, custom engineering
+- /docs : Documentation index (Accounts OAuth PKCE, Mail, Tube, Meet, Cloudflare deployment)
+- /company : Mission, leadership and contact details
+- /contact : Business, support, help and security inboxes, WhatsApp and phone
 
 ## Structured data
-- Organization JSON-LD at https://gothwadtech.com/#organization
-- WebSite with SearchAction (query: /ecosystem?q={search_term_string})
-- BreadcrumbList per route
-- ItemList for ecosystem products
+- Organization JSON-LD: https://gothwadtech.com/#organization
+- WebSite with SearchAction: /ecosystem?q={search_term_string}
+- BreadcrumbList and ItemList per route
 
-## Docs & source
-- Docs site: https://docs.gothwadtech.com
-- Docs repo: https://github.com/GothwadTech/docs (source-cited, SOURCES.md)
-- Main org: https://github.com/GothwadTech
-- This website repo: https://github.com/GothwadTech/website
+## Source
+- Organization: https://github.com/GothwadTech
+- This website: https://github.com/GothwadTech/gothwadtech
+- Docs repo: https://github.com/GothwadTech/docs
 
 ## Brand & contact
 - Logo: https://gothwadtech.com/assets/brand/logo.png
-- OG image: https://gothwadtech.com/assets/brand/og-image.png
-- Contact: contact@gothwadtech.com, pawan@gothwadtech.com, +91 73399 04665
+- Social card: https://gothwadtech.com/assets/brand/og-image.png
+- Email: contact@gothwadtech.com · support@gothwadtech.com · security@gothwadtech.com
+- Phone: +91 73399 04665
 - Address: Jaipur, Rajasthan, India
 
-## Markdown for AI
-See also:
+## Related machine-readable files
 - https://gothwadtech.com/sitemap.xml
 - https://gothwadtech.com/robots.txt
 - https://gothwadtech.com/humans.txt
 - https://gothwadtech.com/manifest.json
+- https://gothwadtech.com/.well-known/security.txt

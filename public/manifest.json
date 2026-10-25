@@ -13,7 +13,6 @@
   "lang": "en-IN",
   "dir": "ltr",
   "categories": ["business", "productivity", "utilities", "developer-tools", "education", "social"],
-  "handle_links": "preferred",
   "launch_handler": { "client_mode": ["auto", "navigate-new", "focus-existing"] },
   "icons": [
     { "src": "/favicon.ico", "type": "image/x-icon", "sizes": "16x16 32x32 48x48" },
@@ -32,17 +31,21 @@
     { "src": "/apple-touch-icon.png", "type": "image/png", "sizes": "180x180" }
   ],
   "screenshots": [
-    { "src": "/assets/brand/og-image.png", "type": "image/png", "sizes": "512x512", "form_factor": "wide", "label": "Gothwad Tech — everything Gothwad, in one place" }
+    {
+      "src": "/assets/brand/og-image.png",
+      "type": "image/png",
+      "sizes": "1200x630",
+      "form_factor": "wide",
+      "label": "Gothwad Tech — everything Gothwad, in one place"
+    }
   ],
   "shortcuts": [
     { "name": "Ecosystem — All Products", "short_name": "Ecosystem", "description": "Browse all Gothwad products with direct links", "url": "/ecosystem", "icons": [{ "src": "/assets/icons/icon-192.png", "sizes": "192x192" }] },
     { "name": "Gothwad Mail", "short_name": "Mail", "description": "Open your Gothwad inbox", "url": "https://mail.gothwadtech.com", "icons": [{ "src": "/assets/icons/icon-192.png", "sizes": "192x192" }] },
     { "name": "Gothwad Docs", "short_name": "Docs", "description": "Developer documentation", "url": "https://docs.gothwadtech.com", "icons": [{ "src": "/assets/icons/icon-192.png", "sizes": "192x192" }] },
-    { "name": "Gothwad Tube", "short_name": "Tube", "description": "A better way to watch", "url": "https://tube.gothwadtech.com", "icons": [{ "src": "/assets/icons/icon-192.png", "sizes": "192x192" }] }
+    { "name": "Gothwad Tube", "short_name": "Tube", "description": "Video on Gothwad", "url": "https://tube.gothwadtech.com", "icons": [{ "src": "/assets/icons/icon-192.png", "sizes": "192x192" }] }
   ],
   "related_applications": [],
   "prefer_related_applications": false,
-  "edge_side_panel": { "preferred_width": 400 },
-  "file_handlers": [],
-  "protocol_handlers": []
+  "edge_side_panel": { "preferred_width": 400 }
 }

@@ -1,29 +1,21 @@
 # ============================================================
-# Gothwad Tech — Cloudflare Pages redirects & SEO canonical
-# Primary domain is https://gothwadtech.com (non-www).
-# We 301 redirect www → apex for canonical consistency (fixes Google
-# showing www.gothwadtech.com instead of gothwadtech.com).
-# Order matters: specific redirects first, SPA fallback last.
+# Gothwad Tech — Cloudflare Pages redirects
+# Canonical host: https://gothwadtech.com (apex, non-www).
+#
+# NOTE: Cloudflare Pages `_redirects` cannot redirect by domain/host —
+# only by file path. www → apex must be a Redirect Rule in the
+# Cloudflare zone (see README). Attempting it here silently does nothing.
 # ============================================================
 
-# 1) Enforce HTTPS + non-www canonical (SEO: stops www duplicate index)
-https://www.gothwadtech.com/* https://gothwadtech.com/:splat 301!
-http://www.gothwadtech.com/* https://gothwadtech.com/:splat 301!
-http://gothwadtech.com/* https://gothwadtech.com/:splat 301!
+# 1) Legacy path aliases — keep old links alive
+/about      /company   301
+/portfolio  /ecosystem 301
+/browser    /products  301
+/leadership /company   301
+/legacy     /ecosystem 301
 
-# 2) Legacy path aliases (keep old links alive, pass link equity)
-#    These used to be hash links — now they are real paths.
-/about      /company  301!
-/portfolio  /ecosystem 301!
-/browser    /products 301!
-/leadership /company 301!
-/legacy     /ecosystem 301!
-
-# 3) www subdomain direct (fallback if protocol not matched above)
-www.gothwadtech.com/* https://gothwadtech.com/:splat 301!
-
-# 4) SPA fallback — every unmatched path serves index.html so deep links
-#    and hard-refresh on /ecosystem, /products etc. never 404.
-#    Cloudflare Pages serves real assets first, so /favicon.ico,
-#    /assets/*, /manifest.json etc. bypass this rule.
-/*    /index.html   200
+# 2) No catch-all rewrite is needed: Cloudflare Pages already falls back to the
+#    SPA shell for paths that do not match a static asset, and real files
+#    (including the prerendered /ecosystem/index.html etc.) always win.
+#    Do NOT add a top-level dist/404.html — that would disable the SPA fallback
+#    and deep links would start returning 404 pages.

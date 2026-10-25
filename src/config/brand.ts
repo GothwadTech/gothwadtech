@@ -1,19 +1,28 @@
 export const DEFAULT_APP_DOMAIN = "gothwadtech.com";
 
+type ViteEnv = Record<string, string | undefined>;
+
 function readViteEnv(key: string): string {
   try {
-    if (typeof import.meta !== "undefined" && (import.meta as any).env) {
-      const val = (import.meta as any).env[key];
+    const env = (import.meta as ImportMeta & { env?: ViteEnv }).env;
+    if (env) {
+      const val = env[key];
       if (typeof val === "string" && val.trim()) return val.trim();
     }
-  } catch {}
+  } catch {
+    /* import.meta.env is unavailable outside Vite — fall back to the default */
+  }
   return "";
 }
 
-export const APP_DOMAIN = (readViteEnv("VITE_APP_DOMAIN") || DEFAULT_APP_DOMAIN)
-  .toLowerCase()
-  .replace(/^https?:\/\//, "")
-  .replace(/\/+$/, "");
+function origin(raw: string): string {
+  return raw
+    .toLowerCase()
+    .replace(/^https?:\/\//, "")
+    .replace(/\/+$/, "");
+}
+
+export const APP_DOMAIN = origin(readViteEnv("VITE_APP_DOMAIN") || DEFAULT_APP_DOMAIN);
 
 export const ACCOUNTS_WEB_ORIGIN = (
   readViteEnv("VITE_ACCOUNTS_WEB_URL") || `https://accounts.${APP_DOMAIN}`
@@ -23,8 +32,16 @@ export const ACCOUNTS_API_ORIGIN = (
   readViteEnv("VITE_ACCOUNTS_API_URL") || `https://api.${APP_DOMAIN}`
 ).replace(/\/+$/, "");
 
+/** Session fallbacks. Same as Mail/Drive — each app has its own Worker. */
+export const DRIVE_ORIGIN = (
+  readViteEnv("VITE_DRIVE_URL") || `https://drive.${APP_DOMAIN}`
+).replace(/\/+$/, "");
+
+export const MAIL_ORIGIN = (
+  readViteEnv("VITE_MAIL_URL") || `https://mail.${APP_DOMAIN}`
+).replace(/\/+$/, "");
+
 export const ECOSYSTEM_NAME = "Gothwad";
-export const ACCOUNT_WIDGET_URL = `${ACCOUNTS_WEB_ORIGIN}/widget/account-menu.js`;
 
 export function formatGothwadEmail(username: string, domain = APP_DOMAIN): string {
   const clean = String(username || "").trim().toLowerCase();
@@ -47,7 +64,9 @@ export function parseAuthuserFromUrl(
     const params = new URLSearchParams(search);
     const q = params.get("authuser")?.trim() || params.get("u")?.trim();
     if (q && /^[0-5]$/.test(q)) return { authuser: Number.parseInt(q, 10), hasExplicitSlot: true };
-  } catch {}
+  } catch {
+    /* malformed query string — treat as no slot */
+  }
   return { authuser: 0, hasExplicitSlot: false };
 }
 

@@ -1,7 +1,16 @@
-import React, { useEffect, useState, Suspense, lazy } from 'react';
+import React, { useEffect, useState, Suspense, lazy, useCallback } from 'react';
 import { ThemeProvider } from './context/ThemeContext';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
+import { ErrorBoundary } from './components/ErrorBoundary';
+import pageMeta from './data/pageMeta.json';
+import {
+  type PageKey,
+  pageFromHash,
+  pageFromPathname,
+  pathForPage,
+  hrefForPage,
+} from './lib/routing';
 
 const HomePage = lazy(() => import('./pages/HomePage').then((m) => ({ default: m.HomePage })));
 const EcosystemPage = lazy(() => import('./pages/EcosystemPage').then((m) => ({ default: m.EcosystemPage })));
@@ -11,134 +20,23 @@ const DocsPage = lazy(() => import('./pages/DocsPage').then((m) => ({ default: m
 const CompanyPage = lazy(() => import('./pages/CompanyPage').then((m) => ({ default: m.CompanyPage })));
 const ContactPage = lazy(() => import('./pages/ContactPage').then((m) => ({ default: m.ContactPage })));
 
-const ROUTES = ['home', 'ecosystem', 'products', 'solutions', 'docs', 'company', 'contact'];
-
-const ROUTE_ALIASES: Record<string, string> = {
-  '': 'home',
-  '/': 'home',
-  about: 'company',
-  portfolio: 'ecosystem',
-  browser: 'products',
-  leadership: 'company',
-};
-
-import { parseAuthuserFromUrl, stripAuthuserPath, buildAccountSlotPath } from './config/brand';
-
-function pageFromPathname(pathname: string): string {
-  const clean = stripAuthuserPath(pathname);
-  const seg = clean.split('/').filter(Boolean)[0]?.toLowerCase() ?? '';
-  if (!seg) return 'home';
-  const target = ROUTE_ALIASES[seg] ?? seg;
-  return ROUTES.includes(target) ? target : 'home';
-}
-
-function pageFromHash(hash: string): string | null {
-  const raw = hash.replace(/^#/, '').toLowerCase().trim();
-  if (!raw) return null;
-  const target = ROUTE_ALIASES[raw] ?? raw;
-  return ROUTES.includes(target) ? target : null;
-}
-
-const pathForPage = (page: string) => {
-  const base = page === 'home' ? '/' : `/${page}`;
-  // Preserve /u/<n>/ slot like Gmail so authuser stays in URL (and for SSO header)
-  try {
-    const { authuser, hasExplicitSlot } = parseAuthuserFromUrl(window.location.pathname, window.location.search);
-    if (hasExplicitSlot) return `${buildAccountSlotPath(authuser)}${base === '/' ? '' : base.slice(1)}`.replace(/\/\//g, '/') || '/';
-  } catch {}
-  return base;
-};
-
-type PageMeta = {
+type PageMetaJson = {
+  path: string;
+  label: string;
   title: string;
   description: string;
-  ogType?: string;
   keywords?: string;
-  breadcrumbs: { name: string; path: string }[];
-  jsonLdExtra?: Record<string, unknown> | null;
+  heading: string;
+  lede: string;
 };
 
-// Exhaustive per-route meta — 55-60 char titles, 150-160 char descriptions, brand included
-const PAGE_META: Record<string, PageMeta> = {
-  home: {
-    title: 'Gothwad Tech — Official Website | Sovereign Software from India',
-    description:
-      'Official site of Gothwad Tech — Jaipur-based sovereign collective. One account for Mail, Drive, Meet, Store, Tube, GrixChat, Indogram, Browser, Education, AI & Docs.',
-    keywords:
-      'Gothwad Tech, gothwadtech.com, gothwadtech official, Pawan Gothwad, sovereign software India, Gothwad Browser, Gothwad Accounts',
-    breadcrumbs: [{ name: 'Home', path: '/' }],
-  },
-  ecosystem: {
-    title: 'Gothwad Ecosystem — All Products & Direct Links | Gothwad Tech',
-    description:
-      'Browse the full Gothwad ecosystem — Accounts, Mail, Drive, Meet, Tube, Browser, GrixChat, Indogram, Launcher, Education, AI & more with live links.',
-    keywords:
-      'Gothwad ecosystem, Gothwad products, gothwadtech.com products, Gothwad Mail, Gothwad Drive, Gothwad Tube, GrixChat, Indogram',
-    breadcrumbs: [
-      { name: 'Home', path: '/' },
-      { name: 'Ecosystem', path: '/ecosystem' },
-    ],
-    jsonLdExtra: {
-      '@type': 'CollectionPage',
-      name: 'Gothwad Ecosystem Directory',
-    },
-  },
-  products: {
-    title: 'Products — Browser, GrixChat, Indogram | Gothwad Tech',
-    description:
-      'Sovereign apps by Gothwad Tech: Browser (11.8 MB, 75% less RAM), GrixChat (<15ms), Indogram (200k members) plus Mail, Drive, Meet & Tube.',
-    keywords:
-      'Gothwad Browser, GrixChat, Indogram, sovereign browser India, Gothwad products, Aatmanirbhar Bharat apps',
-    breadcrumbs: [
-      { name: 'Home', path: '/' },
-      { name: 'Products', path: '/products' },
-    ],
-  },
-  solutions: {
-    title: 'Solutions — School ERP, Restaurant POS & Enterprise | Gothwad Tech',
-    description:
-      'Solutions for Bharat: School ERP, Restaurant POS & ordering, Kirana billing & Khata, Business CRM & custom sovereign browser engines.',
-    keywords:
-      'Gothwad solutions, school ERP India, restaurant POS, shop billing, business ERP, sovereign systems, Gothwad Tech solutions',
-    breadcrumbs: [
-      { name: 'Home', path: '/' },
-      { name: 'Solutions', path: '/solutions' },
-    ],
-  },
-  docs: {
-    title: 'Docs — Developer Documentation | Gothwad Tech',
-    description:
-      'Gothwad Tech developer docs: Accounts OAuth PKCE, Mail REST, Tube web, GrixChat, Meet, Cloudflare deploy — source-cited guides.',
-    keywords:
-      'Gothwad docs, Gothwad documentation, docs.gothwadtech.com, Gothwad Accounts OAuth, Gothwad Mail API',
-    breadcrumbs: [
-      { name: 'Home', path: '/' },
-      { name: 'Docs', path: '/docs' },
-    ],
-  },
-  company: {
-    title: 'Company — Leadership & Aatmanirbhar Mission | Gothwad Tech',
-    description:
-      'About Gothwad Tech: mission to build sovereign tech for India. Leadership by Pawan Gothwad & CEO Yuvkesh Meena from Jaipur, Rajasthan.',
-    keywords:
-      'Gothwad Tech company, Pawan Gothwad, Yuvkesh Meena, about Gothwad Tech, Aatmanirbhar Bharat, Jaipur tech company',
-    breadcrumbs: [
-      { name: 'Home', path: '/' },
-      { name: 'Company', path: '/company' },
-    ],
-  },
-  contact: {
-    title: 'Contact — Talk to Gothwad Tech | Support & Business',
-    description:
-      'Contact Gothwad Tech: contact@gothwadtech.com, +91 73399 04665 WhatsApp/Call. Business, support, help & media desks — reply in 2-4 hours.',
-    keywords:
-      'contact Gothwad Tech, Gothwad Tech phone, Gothwad support, Gothwad help, pawan@gothwadtech.com, contact@gothwadtech.com',
-    breadcrumbs: [
-      { name: 'Home', path: '/' },
-      { name: 'Contact', path: '/contact' },
-    ],
-  },
-};
+const META = pageMeta as Record<PageKey, PageMetaJson>;
+
+const ORIGIN = 'https://gothwadtech.com';
+const OG_IMAGE = `${ORIGIN}/assets/brand/og-image.png`;
+const LAST_MODIFIED = '2026-10-25';
+
+type Navigate = (page: PageKey) => void;
 
 function setMeta(selector: string, attr: 'content' | 'href', value: string) {
   let el = document.querySelector(selector) as HTMLElement | null;
@@ -146,14 +44,15 @@ function setMeta(selector: string, attr: 'content' | 'href', value: string) {
     const isLink = selector.startsWith('link');
     el = document.createElement(isLink ? 'link' : 'meta');
     if (isLink) {
-      // infer rel from selector
       const relMatch = selector.match(/rel="([^"]+)"/);
       el.setAttribute('rel', relMatch?.[1] ?? 'canonical');
+      const hreflangMatch = selector.match(/hreflang="([^"]+)"/);
+      if (hreflangMatch) el.setAttribute('hreflang', hreflangMatch[1]);
     } else {
-      const name = selector.includes('property=') ? 'property' : 'name';
-      const m = selector.match(/\[(?:name|property)="([^"]+)"\]/);
-      const raw = m?.[1];
-      if (raw) el.setAttribute(name, raw);
+      const nameMatch = selector.match(/\[(?:name|property)="([^"]+)"\]/);
+      if (nameMatch) {
+        el.setAttribute(selector.includes('property=') ? 'property' : 'name', nameMatch[1]);
+      }
     }
     document.head.appendChild(el);
   }
@@ -175,39 +74,18 @@ function removeJsonLd(id: string) {
   document.getElementById(id)?.remove();
 }
 
-function buildBreadcrumbJsonLd(breadcrumbs: { name: string; path: string }[]) {
+function buildBreadcrumbJsonLd(items: { name: string; path: string }[], canonical: string) {
   return {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
-    '@id': 'https://gothwadtech.com/#breadcrumb',
-    itemListElement: breadcrumbs.map((b, i) => ({
+    '@id': `${canonical}#breadcrumb`,
+    itemListElement: items.map((item, index) => ({
       '@type': 'ListItem',
-      position: i + 1,
-      name: b.name,
-      item: `https://gothwadtech.com${b.path}`,
+      position: index + 1,
+      name: item.name,
+      item: `${ORIGIN}${item.path}`,
     })),
   };
-}
-
-function buildWebPageJsonLd(page: string, meta: PageMeta, canonical: string) {
-  const base: Record<string, unknown> = {
-    '@context': 'https://schema.org',
-    '@type': meta.jsonLdExtra?.['@type'] ?? 'WebPage',
-    '@id': `${canonical}#webpage`,
-    url: canonical,
-    name: meta.title,
-    description: meta.description,
-    isPartOf: { '@id': 'https://gothwadtech.com/#website' },
-    about: { '@id': 'https://gothwadtech.com/#organization' },
-    inLanguage: 'en-IN',
-    datePublished: '2023-01-01T00:00:00+05:30',
-    dateModified: '2026-10-24T00:00:00+05:30',
-    primaryImageOfPage: { '@id': 'https://gothwadtech.com/#logo' },
-    breadcrumb: { '@id': 'https://gothwadtech.com/#breadcrumb' },
-    ...(meta.jsonLdExtra ?? {}),
-  };
-  // attach canonical breadcrumb id
-  return base;
 }
 
 function RouteFallback() {
@@ -219,169 +97,147 @@ function RouteFallback() {
   );
 }
 
+const NotFoundPage: React.FC = () => (
+  <div className="max-w-[720px] mx-auto px-4 sm:px-6 py-16 text-center">
+    <p className="text-[11px] font-bold tracking-[0.2em] uppercase text-[#0494f4]">404</p>
+    <h1 className="mt-2 text-3xl font-black tracking-tight text-zinc-900 dark:text-white">Page not found</h1>
+    <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
+      That URL does not exist on gothwadtech.com. Try the ecosystem directory instead.
+    </p>
+    <div className="mt-6 flex flex-wrap items-center justify-center gap-2">
+      <a href="/" className="px-4 py-2 rounded-full bg-[#0494f4] hover:bg-[#0077cd] text-white text-sm font-medium">Home</a>
+      <a href="/ecosystem" className="px-4 py-2 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 text-sm font-medium">Ecosystem</a>
+      <a href="/contact" className="px-4 py-2 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 text-sm font-medium">Contact</a>
+    </div>
+  </div>
+);
+
 function AppContent() {
-  const [activePage, setActivePage] = useState<string>(() => {
-    if (typeof window !== 'undefined') {
-      const legacy = pageFromHash(window.location.hash);
-      if (legacy) return legacy;
-      return pageFromPathname(window.location.pathname);
-    }
-    return 'home';
+  const [activePage, setActivePage] = useState<PageKey | null>(() => {
+    if (typeof window === 'undefined') return 'home';
+    return pageFromHash(window.location.hash) ?? pageFromPathname(window.location.pathname);
   });
 
-  const handleNavigate = (page: string) => {
-    const norm = ROUTES.includes(page) ? page : 'home';
-    setActivePage(norm);
-    const path = pathForPage(norm);
-    if (window.location.pathname !== path) {
-      window.history.pushState({}, '', path);
+  const navigate = useCallback<Navigate>((page) => {
+    const href = hrefForPage(page);
+    const current = `${window.location.pathname}${window.location.search}`;
+    if (current !== href) {
+      window.history.pushState({ page }, '', href);
     }
+    setActivePage(page);
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+  }, []);
 
+  // Normalise legacy hash routes (#docs) into real paths once, without a re-render.
   useEffect(() => {
     const legacy = pageFromHash(window.location.hash);
-    if (legacy) {
-      window.history.replaceState({}, '', pathForPage(legacy));
-      setActivePage(legacy);
-    } else {
-      setActivePage(pageFromPathname(window.location.pathname));
-    }
+    if (legacy) window.history.replaceState({ page: legacy }, '', hrefForPage(legacy));
+  }, []);
+
+  // Browser back/forward.
+  useEffect(() => {
     const sync = () => setActivePage(pageFromPathname(window.location.pathname));
     window.addEventListener('popstate', sync);
     return () => window.removeEventListener('popstate', sync);
   }, []);
 
   useEffect(() => {
-    const meta = PAGE_META[activePage] ?? PAGE_META.home;
-    const canonical = `https://gothwadtech.com${pathForPage(activePage)}`;
-    const ogImage = 'https://gothwadtech.com/assets/brand/og-image.png';
+    // The prerendered / static JSON-LD blocks are replaced by the live ones below.
+    removeJsonLd('ld-webpage-fallback');
+    removeJsonLd('ld-webpage-prerendered');
+    removeJsonLd('ld-breadcrumb-fallback');
 
-    // Core title & description
+    if (!activePage) {
+      document.title = 'Page not found | Gothwad Tech';
+      setMeta('meta[name="description"]', 'content', 'The requested page does not exist on gothwadtech.com.');
+      setMeta('meta[name="robots"]', 'content', 'noindex, follow');
+      setMeta('meta[name="googlebot"]', 'content', 'noindex, follow');
+      return;
+    }
+
+    const meta = META[activePage];
+    const canonical = `${ORIGIN}${pathForPage(activePage)}`;
+    const breadcrumbs = [{ name: 'Home', path: '/' }];
+    if (activePage !== 'home') breadcrumbs.push({ name: meta.label, path: meta.path });
+
     document.title = meta.title;
     setMeta('meta[name="description"]', 'content', meta.description);
     if (meta.keywords) setMeta('meta[name="keywords"]', 'content', meta.keywords);
     setMeta('meta[name="title"]', 'content', meta.title);
 
-    // Canonical + hreflang
     setMeta('link[rel="canonical"]', 'href', canonical);
     setMeta('link[rel="alternate"][hreflang="x-default"]', 'href', canonical);
     setMeta('link[rel="alternate"][hreflang="en-IN"]', 'href', canonical);
+    setMeta('link[rel="alternate"][hreflang="en"]', 'href', canonical);
 
-    // Open Graph
+    setMeta('meta[property="og:type"]', 'content', activePage === 'home' ? 'website' : 'article');
     setMeta('meta[property="og:title"]', 'content', meta.title);
     setMeta('meta[property="og:description"]', 'content', meta.description);
     setMeta('meta[property="og:url"]', 'content', canonical);
-    setMeta('meta[property="og:image"]', 'content', ogImage);
-    setMeta('meta[property="og:image:secure_url"]', 'content', ogImage);
-    setMeta('meta[property="og:updated_time"]', 'content', new Date().toISOString());
+    setMeta('meta[property="og:image"]', 'content', OG_IMAGE);
+    setMeta('meta[property="og:image:secure_url"]', 'content', OG_IMAGE);
 
-    // Twitter
     setMeta('meta[name="twitter:title"]', 'content', meta.title);
     setMeta('meta[name="twitter:description"]', 'content', meta.description);
     setMeta('meta[name="twitter:url"]', 'content', canonical);
-    setMeta('meta[name="twitter:image"]', 'content', ogImage);
+    setMeta('meta[name="twitter:image"]', 'content', OG_IMAGE);
 
-    // Robots hints per route (all indexable; no noindex anywhere)
     setMeta('meta[name="robots"]', 'content', 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1');
     setMeta('meta[name="googlebot"]', 'content', 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1');
 
-    // JSON-LD — WebPage + Breadcrumb for every route
-    upsertJsonLd('ld-webpage-dynamic', buildWebPageJsonLd(activePage, meta, canonical));
-    upsertJsonLd('ld-breadcrumb-dynamic', buildBreadcrumbJsonLd(meta.breadcrumbs));
+    const pageType =
+      activePage === 'ecosystem' ? 'CollectionPage'
+        : activePage === 'company' ? 'AboutPage'
+          : activePage === 'contact' ? 'ContactPage'
+            : 'WebPage';
 
-    // Route-specific extra ItemList for ecosystem/products/docs to boost rich results
-    if (activePage === 'ecosystem') {
-      upsertJsonLd('ld-itemlist-ecosystem', {
-        '@context': 'https://schema.org',
-        '@type': 'ItemList',
-        '@id': `${canonical}#products`,
-        name: 'Gothwad Ecosystem — All Products',
-        description: 'Complete list of Gothwad Tech products: Accounts, Mail, Drive, Meet, Tube, Browser, GrixChat, Indogram, Launcher, Manager, Education, AI and more.',
-        numberOfItems: 25,
-        itemListElement: [
-          'Accounts',
-          'Mail',
-          'Drive',
-          'Meet',
-          'Calendar',
-          'Contacts',
-          'Notes',
-          'Store',
-          'Tube',
-          'GrixChat',
-          'Indogram',
-          'Browser',
-          'Launcher',
-          'Manager',
-          'Remote Desktop',
-          'Internet',
-          'Computer',
-          'Education',
-          'ClashDrive',
-          'AI Studio',
-          'Docs',
-          'CEO',
-        ].map((name, i) => ({
-          '@type': 'ListItem',
-          position: i + 1,
-          name,
-          url: `https://gothwadtech.com/ecosystem#${name.toLowerCase().replace(/\s/g, '-')}`,
-        })),
-      });
-    } else {
-      removeJsonLd('ld-itemlist-ecosystem');
-    }
+    upsertJsonLd('ld-webpage-dynamic', {
+      '@context': 'https://schema.org',
+      '@type': pageType,
+      '@id': `${canonical}#webpage`,
+      url: canonical,
+      name: meta.title,
+      description: meta.description,
+      isPartOf: { '@id': `${ORIGIN}/#website` },
+      about: { '@id': `${ORIGIN}/#organization` },
+      inLanguage: 'en-IN',
+      datePublished: '2023-01-01T00:00:00+05:30',
+      dateModified: `${LAST_MODIFIED}T00:00:00+05:30`,
+      primaryImageOfPage: { '@id': `${ORIGIN}/#logo` },
+      breadcrumb: { '@id': `${canonical}#breadcrumb` },
+    });
+    upsertJsonLd('ld-breadcrumb-dynamic', buildBreadcrumbJsonLd(breadcrumbs, canonical));
 
-    if (activePage === 'contact') {
-      upsertJsonLd('ld-contact', {
-        '@context': 'https://schema.org',
-        '@type': 'ContactPage',
-        '@id': `${canonical}#contactpage`,
-        url: canonical,
-        name: meta.title,
-        description: meta.description,
-        isPartOf: { '@id': 'https://gothwadtech.com/#website' },
-        about: { '@id': 'https://gothwadtech.com/#organization' },
-      });
-    } else {
-      removeJsonLd('ld-contact');
-    }
-
-    if (activePage === 'company') {
-      upsertJsonLd('ld-about', {
-        '@context': 'https://schema.org',
-        '@type': 'AboutPage',
-        '@id': `${canonical}#aboutpage`,
-        url: canonical,
-        name: meta.title,
-        description: meta.description,
-        isPartOf: { '@id': 'https://gothwadtech.com/#website' },
-        about: { '@id': 'https://gothwadtech.com/#organization' },
-        mainEntity: { '@id': 'https://gothwadtech.com/#organization' },
-      });
-    } else {
-      removeJsonLd('ld-about');
-    }
+    // Ecosystem ItemList lives with EcosystemPage so the product data stays in that chunk.
   }, [activePage]);
 
   return (
     <div className="min-h-screen bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 selection:bg-[#0494f4]/25 selection:text-[#0494f4] flex flex-col font-sans">
-      <Navbar activePage={activePage} onNavigate={handleNavigate} />
+      <a
+        href="#main"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:px-4 focus:py-2 focus:rounded-full focus:bg-[#0494f4] focus:text-white focus:text-sm focus:font-semibold"
+      >
+        Skip to content
+      </a>
 
-      <main className="flex-1 pt-[56px]">
-        <Suspense fallback={<RouteFallback />}>
-          {activePage === 'home' && <HomePage onNavigate={handleNavigate} />}
-          {activePage === 'ecosystem' && <EcosystemPage />}
-          {activePage === 'products' && <ProductsPage />}
-          {activePage === 'solutions' && <SolutionsPage onNavigate={handleNavigate} />}
-          {activePage === 'docs' && <DocsPage />}
-          {activePage === 'company' && <CompanyPage onNavigate={handleNavigate} />}
-          {activePage === 'contact' && <ContactPage />}
-        </Suspense>
+      <Navbar activePage={activePage} onNavigate={navigate} />
+
+      <main id="main" tabIndex={-1} className="flex-1 pt-[56px] focus:outline-none">
+        <ErrorBoundary>
+          <Suspense fallback={<RouteFallback />}>
+            {activePage === 'home' && <HomePage onNavigate={navigate} />}
+            {activePage === 'ecosystem' && <EcosystemPage onNavigate={navigate} />}
+            {activePage === 'products' && <ProductsPage onNavigate={navigate} />}
+            {activePage === 'solutions' && <SolutionsPage onNavigate={navigate} />}
+            {activePage === 'docs' && <DocsPage onNavigate={navigate} />}
+            {activePage === 'company' && <CompanyPage onNavigate={navigate} />}
+            {activePage === 'contact' && <ContactPage onNavigate={navigate} />}
+            {!activePage && <NotFoundPage />}
+          </Suspense>
+        </ErrorBoundary>
       </main>
 
-      <Footer onNavigate={handleNavigate} />
+      <Footer onNavigate={navigate} />
     </div>
   );
 }

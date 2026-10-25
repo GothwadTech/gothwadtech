@@ -2,35 +2,58 @@ export const COMPANY_INFO = {
   name: 'Gothwad Tech',
   domain: 'gothwadtech.com',
   legalName: 'Gothwad Tech Private Limited',
-  tagline: 'Digital Solutions for Indian Businesses & Sovereign Tech Platforms',
-  slogan: 'Empowering Indian Businesses & Building Sovereign Tech — Aatmanirbhar Bharat',
-  shortDescription:
-    'One Gothwad Account for everything. Access Mail, Drive, Meet, Store, Tube, GrixChat, Indogram, Browser, Education, AI Studio and the full Gothwad ecosystem — with docs, guides and direct product links.',
+  tagline: 'Sovereign software and business systems, built in India',
+  slogan: 'Built in India, for Bharat',
+  description:
+    'Gothwad Tech is an Indian software collective from Jaipur, Rajasthan. One Gothwad Account connects Mail, Drive, Meet, Tube, GrixChat, Indogram, Browser, Education, AI Studio and Docs.',
   foundedYear: '2023',
   headquarters: 'Jaipur, Rajasthan, India',
   phone: '+91 73399 04665',
-  phoneRaw: '07339904665',
+  /** E.164 — safe for tel: links on every platform. */
+  phoneE164: '+917339904665',
   whatsappNumberOnly: '917339904665',
   email: 'contact@gothwadtech.com',
   supportEmail: 'support@gothwadtech.com',
   helpEmail: 'help@gothwadtech.com',
   infoEmail: 'info@gothwadtech.com',
   docsEmail: 'docs@gothwadtech.com',
+  securityEmail: 'security@gothwadtech.com',
   founderEmail: 'pawan@gothwadtech.com',
-  ceoEmail: 'nishant@gothwadtech.com',
+  ceoEmail: 'yuvkesh@gothwadtech.com',
   coFounderEmail: 'vishnu@gothwadtech.com',
-  stats: [
-    { label: 'Ecosystem Apps', value: '13+ Products', helper: 'Mail, Drive, Meet, Tube +' },
-    { label: 'Open Repos', value: '30+ Repos', helper: 'Public on GitHub' },
-    { label: 'Engineering Team', value: '12 Specialists', helper: 'Web, Mobile, AI, Cloud' },
-    { label: 'Satisfaction', value: '4.95 / 5', helper: 'Verified client reviews' },
-  ],
   socials: [
     { label: 'GitHub', href: 'https://github.com/GothwadTech' },
     { label: 'X (Twitter)', href: 'https://x.com/gothwadtech' },
     { label: 'LinkedIn', href: 'https://linkedin.com/company/gothwadtech' },
-    { label: 'Dribbble', href: 'https://github.com/GothwadTech' },
   ],
 };
+
+/**
+ * Single source of truth for the team. Update here and the Company page,
+ * humans.txt copy and any derived UI stay consistent.
+ */
+export const LEADERSHIP = [
+  {
+    name: 'Pawan Gothwad',
+    role: 'Founder & Chief Visionary Officer',
+    email: COMPANY_INFO.founderEmail,
+    location: 'Jaipur, Rajasthan',
+    highlight: false,
+  },
+  {
+    name: 'Yuvkesh Meena',
+    role: 'Chief Executive Officer',
+    email: COMPANY_INFO.ceoEmail,
+    location: 'Dausa, Rajasthan',
+    highlight: true,
+  },
+  {
+    name: 'Vishnu Meena',
+    role: 'Co-Founder & CTO',
+    email: COMPANY_INFO.coFounderEmail,
+    location: 'Jaipur, Rajasthan',
+    highlight: false,
+  },
+] as const;
 
 export const ROOT_DOMAIN = 'gothwadtech.com';

@@ -4,7 +4,6 @@
  * Falls back to inline shadow-DOM sheet when widget unreachable/offline.
  */
 import {
-  ACCOUNT_WIDGET_URL,
   ACCOUNTS_API_ORIGIN,
   ACCOUNTS_WEB_ORIGIN,
   APP_DOMAIN,
@@ -70,8 +69,12 @@ export function initialsFrom(name?: string, fallback?: string): string {
   return full.slice(0, 1).toUpperCase() || "?";
 }
 
-export function initialsFromAccount(item?: Partial<GothwadAccountItem | GothwadSsoUser> | null): string {
-  const full = `${item?.firstName || ""} ${item?.lastName || ""}`.trim() || String(item?.name || (item as any)?.username || "?").trim();
+type AccountLike = Partial<GothwadAccountItem & GothwadSsoUser>;
+
+export function initialsFromAccount(item?: AccountLike | null): string {
+  const full =
+    `${item?.firstName || ""} ${item?.lastName || ""}`.trim() ||
+    String(item?.name || item?.username || "?").trim();
   return initialsFrom(full);
 }
 
@@ -101,12 +104,13 @@ const FALLBACK_CSS = `
 .gw-extra-group .gw-row{border-radius:20px}
 `;
 
-function renderAvatarHtml(acct: Partial<GothwadAccountItem>, sizePx: number): string {
-  const bg = avatarColorFor((acct as any).username || (acct as any).email || (acct as any).name || "u");
+function renderAvatarHtml(acct: AccountLike, sizePx: number): string {
+  const bg = avatarColorFor(acct.username || acct.email || acct.name || "u");
   const label = esc(initialsFromAccount(acct));
   const fontSize = Math.max(13, Math.round(sizePx * 0.42));
-  if ((acct as any).avatarUrl || (acct as any).avatar_url) {
-    const url = esc((acct as any).avatarUrl || (acct as any).avatar_url);
+  const avatarUrl = acct.avatarUrl || acct.avatar_url;
+  if (avatarUrl) {
+    const url = esc(avatarUrl);
     return `<span class="gw-avatar" style="width:${sizePx}px;height:${sizePx}px;background:${bg};font-size:${fontSize}px;"><img src="${url}" alt="" referrerpolicy="no-referrer" /></span>`;
   }
   return `<span class="gw-avatar" style="width:${sizePx}px;height:${sizePx}px;background:${bg};font-size:${fontSize}px;">${label}</span>`;
@@ -124,7 +128,9 @@ class FallbackAccountMenu implements GothwadAccountMenuController {
     this.opts = { ...opts };
     if (!this.hostEl && typeof document !== "undefined") {
       this.hostEl = document.createElement("div");
-      const shadow = (this.hostEl as any).attachShadow ? this.hostEl.attachShadow({ mode: "open" }) : this.hostEl;
+      const shadow: ShadowRoot | HTMLDivElement = this.hostEl.attachShadow
+        ? this.hostEl.attachShadow({ mode: "open" })
+        : this.hostEl;
       const style = document.createElement("style");
       style.textContent = FALLBACK_CSS;
       this.layerEl = document.createElement("div");
@@ -158,8 +164,9 @@ class FallbackAccountMenu implements GothwadAccountMenuController {
       this.layerEl.style.setProperty("--gw-top", `${Math.max(12, Math.round(rect.bottom + 10))}px`);
       this.layerEl.style.setProperty("--gw-right", `${Math.max(12, Math.round(window.innerWidth - rect.right))}px`);
     }
-    const active = this.state.user || (this.state.accounts[0] as any);
-    const others = (this.state.accounts || []).filter((a) => (a.username || (a as any).email || "").toLowerCase() !== (active?.username || (active as any)?.email || "").toLowerCase());
+    const active: AccountLike | null = this.state.user ?? this.state.accounts[0] ?? null;
+    const identity = (account: AccountLike | null) => String(account?.username || account?.email || "").toLowerCase();
+    const others = (this.state.accounts || []).filter((account) => identity(account) !== identity(active));
     const webOrigin = this.opts.accountsWebOrigin || ACCOUNTS_WEB_ORIGIN;
     const nextUrl = this.opts.nextUrl || (typeof window !== "undefined" ? window.location.href : "");
     const addHref = `${webOrigin}/signin?choose=1&add=1&next=${encodeURIComponent(nextUrl)}`;
@@ -209,22 +216,15 @@ class FallbackAccountMenu implements GothwadAccountMenuController {
   }
 }
 
-let preloadStarted = false;
-
+/**
+ * Registers the in-house shadow-DOM account menu. We deliberately do NOT inject the
+ * remote `accounts.gothwadtech.com/widget/account-menu.js` module: a third-party script
+ * on the apex domain is a supply-chain risk (and needs a CSP exception) for no gain,
+ * because this local controller is feature-complete.
+ */
 export function preloadGothwadAccountMenu(): void {
   if (typeof window === "undefined") return;
   if (!window.GothwadAccountMenu) window.GothwadAccountMenu = new FallbackAccountMenu();
-  if (preloadStarted) return;
-  preloadStarted = true;
-  try {
-    if (!document.querySelector(`script[src="${ACCOUNT_WIDGET_URL}"]`)) {
-      const script = document.createElement("script");
-      script.type = "module";
-      script.async = true;
-      script.src = ACCOUNT_WIDGET_URL;
-      document.head.appendChild(script);
-    }
-  } catch {}
 }
 
 export function openGothwadAccountMenu(state: GothwadAccountMenuState, opts: GothwadAccountMenuOptions): void {
