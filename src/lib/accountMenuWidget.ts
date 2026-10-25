@@ -1,7 +1,10 @@
 /**
- * Gothwad Website — Account switcher (port of drive's accountMenuWidget)
- * Same Google-style sheet that Mail/Drive use, hosted at accounts.gothwadtech.com/widget/account-menu.js
- * Falls back to inline shadow-DOM sheet when widget unreachable/offline.
+ * Gothwad Website — account switcher.
+ *
+ * A self-contained port of Drive's accountMenuWidget: the same Google-style sheet,
+ * rendered into a shadow root so no site CSS can leak in or out. It is bundled
+ * locally rather than loaded from accounts.gothwadtech.com/widget/account-menu.js
+ * so the primary domain never executes third-party code (see README).
  */
 import {
   ACCOUNTS_API_ORIGIN,
