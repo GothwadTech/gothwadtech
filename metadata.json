@@ -1,0 +1,8 @@
+{
+  "name": "Gothwad Tech",
+  "description": "Official website of Gothwad Tech — India's sovereign software collective from Jaipur, Rajasthan.",
+  "permissions": [],
+  "capabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
